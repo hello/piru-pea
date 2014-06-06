@@ -1,0 +1,472 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8A12A5F8194243A200EF2D10 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A5F7194243A200EF2D10 /* Foundation.framework */; };
+		8A12A5FA194243A200EF2D10 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A5F9194243A200EF2D10 /* CoreGraphics.framework */; };
+		8A12A5FC194243A200EF2D10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A5FB194243A200EF2D10 /* UIKit.framework */; };
+		8A12A602194243A200EF2D10 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A12A600194243A200EF2D10 /* InfoPlist.strings */; };
+		8A12A604194243A200EF2D10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A603194243A200EF2D10 /* main.m */; };
+		8A12A608194243A200EF2D10 /* HEPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A607194243A200EF2D10 /* HEPAppDelegate.m */; };
+		8A12A60B194243A200EF2D10 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A12A609194243A200EF2D10 /* Main.storyboard */; };
+		8A12A60E194243A200EF2D10 /* HEPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A60D194243A200EF2D10 /* HEPViewController.m */; };
+		8A12A610194243A200EF2D10 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A12A60F194243A200EF2D10 /* Images.xcassets */; };
+		8A12A617194243A200EF2D10 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A616194243A200EF2D10 /* XCTest.framework */; };
+		8A12A618194243A200EF2D10 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A5F7194243A200EF2D10 /* Foundation.framework */; };
+		8A12A619194243A200EF2D10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A5FB194243A200EF2D10 /* UIKit.framework */; };
+		8A12A621194243A200EF2D10 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A12A61F194243A200EF2D10 /* InfoPlist.strings */; };
+		8A12A623194243A200EF2D10 /* PeaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A622194243A200EF2D10 /* PeaTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8A12A61A194243A200EF2D10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8A12A5EC194243A200EF2D10 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8A12A5F3194243A200EF2D10;
+			remoteInfo = Pea;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		8A12A5F4194243A200EF2D10 /* Pea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pea.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A12A5F7194243A200EF2D10 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8A12A5F9194243A200EF2D10 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8A12A5FB194243A200EF2D10 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		8A12A5FF194243A200EF2D10 /* Pea-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Pea-Info.plist"; sourceTree = "<group>"; };
+		8A12A601194243A200EF2D10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8A12A603194243A200EF2D10 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8A12A605194243A200EF2D10 /* Pea-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Pea-Prefix.pch"; sourceTree = "<group>"; };
+		8A12A606194243A200EF2D10 /* HEPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HEPAppDelegate.h; sourceTree = "<group>"; };
+		8A12A607194243A200EF2D10 /* HEPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HEPAppDelegate.m; sourceTree = "<group>"; };
+		8A12A60A194243A200EF2D10 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8A12A60C194243A200EF2D10 /* HEPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HEPViewController.h; sourceTree = "<group>"; };
+		8A12A60D194243A200EF2D10 /* HEPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HEPViewController.m; sourceTree = "<group>"; };
+		8A12A60F194243A200EF2D10 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		8A12A615194243A200EF2D10 /* PeaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PeaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A12A616194243A200EF2D10 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		8A12A61E194243A200EF2D10 /* PeaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PeaTests-Info.plist"; sourceTree = "<group>"; };
+		8A12A620194243A200EF2D10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8A12A622194243A200EF2D10 /* PeaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PeaTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8A12A5F1194243A200EF2D10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A12A5FA194243A200EF2D10 /* CoreGraphics.framework in Frameworks */,
+				8A12A5FC194243A200EF2D10 /* UIKit.framework in Frameworks */,
+				8A12A5F8194243A200EF2D10 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A12A612194243A200EF2D10 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A12A617194243A200EF2D10 /* XCTest.framework in Frameworks */,
+				8A12A619194243A200EF2D10 /* UIKit.framework in Frameworks */,
+				8A12A618194243A200EF2D10 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8A12A5EB194243A200EF2D10 = {
+			isa = PBXGroup;
+			children = (
+				8A12A5FD194243A200EF2D10 /* Pea */,
+				8A12A61C194243A200EF2D10 /* PeaTests */,
+				8A12A5F6194243A200EF2D10 /* Frameworks */,
+				8A12A5F5194243A200EF2D10 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8A12A5F5194243A200EF2D10 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8A12A5F4194243A200EF2D10 /* Pea.app */,
+				8A12A615194243A200EF2D10 /* PeaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8A12A5F6194243A200EF2D10 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8A12A5F7194243A200EF2D10 /* Foundation.framework */,
+				8A12A5F9194243A200EF2D10 /* CoreGraphics.framework */,
+				8A12A5FB194243A200EF2D10 /* UIKit.framework */,
+				8A12A616194243A200EF2D10 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8A12A5FD194243A200EF2D10 /* Pea */ = {
+			isa = PBXGroup;
+			children = (
+				8A12A606194243A200EF2D10 /* HEPAppDelegate.h */,
+				8A12A607194243A200EF2D10 /* HEPAppDelegate.m */,
+				8A12A609194243A200EF2D10 /* Main.storyboard */,
+				8A12A60C194243A200EF2D10 /* HEPViewController.h */,
+				8A12A60D194243A200EF2D10 /* HEPViewController.m */,
+				8A12A60F194243A200EF2D10 /* Images.xcassets */,
+				8A12A5FE194243A200EF2D10 /* Supporting Files */,
+			);
+			path = Pea;
+			sourceTree = "<group>";
+		};
+		8A12A5FE194243A200EF2D10 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8A12A5FF194243A200EF2D10 /* Pea-Info.plist */,
+				8A12A600194243A200EF2D10 /* InfoPlist.strings */,
+				8A12A603194243A200EF2D10 /* main.m */,
+				8A12A605194243A200EF2D10 /* Pea-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		8A12A61C194243A200EF2D10 /* PeaTests */ = {
+			isa = PBXGroup;
+			children = (
+				8A12A622194243A200EF2D10 /* PeaTests.m */,
+				8A12A61D194243A200EF2D10 /* Supporting Files */,
+			);
+			path = PeaTests;
+			sourceTree = "<group>";
+		};
+		8A12A61D194243A200EF2D10 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				8A12A61E194243A200EF2D10 /* PeaTests-Info.plist */,
+				8A12A61F194243A200EF2D10 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8A12A5F3194243A200EF2D10 /* Pea */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A12A626194243A200EF2D10 /* Build configuration list for PBXNativeTarget "Pea" */;
+			buildPhases = (
+				8A12A5F0194243A200EF2D10 /* Sources */,
+				8A12A5F1194243A200EF2D10 /* Frameworks */,
+				8A12A5F2194243A200EF2D10 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Pea;
+			productName = Pea;
+			productReference = 8A12A5F4194243A200EF2D10 /* Pea.app */;
+			productType = "com.apple.product-type.application";
+		};
+		8A12A614194243A200EF2D10 /* PeaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A12A629194243A200EF2D10 /* Build configuration list for PBXNativeTarget "PeaTests" */;
+			buildPhases = (
+				8A12A611194243A200EF2D10 /* Sources */,
+				8A12A612194243A200EF2D10 /* Frameworks */,
+				8A12A613194243A200EF2D10 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8A12A61B194243A200EF2D10 /* PBXTargetDependency */,
+			);
+			name = PeaTests;
+			productName = PeaTests;
+			productReference = 8A12A615194243A200EF2D10 /* PeaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8A12A5EC194243A200EF2D10 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = HEP;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = Hello;
+				TargetAttributes = {
+					8A12A614194243A200EF2D10 = {
+						TestTargetID = 8A12A5F3194243A200EF2D10;
+					};
+				};
+			};
+			buildConfigurationList = 8A12A5EF194243A200EF2D10 /* Build configuration list for PBXProject "Pea" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8A12A5EB194243A200EF2D10;
+			productRefGroup = 8A12A5F5194243A200EF2D10 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8A12A5F3194243A200EF2D10 /* Pea */,
+				8A12A614194243A200EF2D10 /* PeaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8A12A5F2194243A200EF2D10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A12A610194243A200EF2D10 /* Images.xcassets in Resources */,
+				8A12A602194243A200EF2D10 /* InfoPlist.strings in Resources */,
+				8A12A60B194243A200EF2D10 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A12A613194243A200EF2D10 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A12A621194243A200EF2D10 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8A12A5F0194243A200EF2D10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A12A608194243A200EF2D10 /* HEPAppDelegate.m in Sources */,
+				8A12A60E194243A200EF2D10 /* HEPViewController.m in Sources */,
+				8A12A604194243A200EF2D10 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8A12A611194243A200EF2D10 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A12A623194243A200EF2D10 /* PeaTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8A12A61B194243A200EF2D10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8A12A5F3194243A200EF2D10 /* Pea */;
+			targetProxy = 8A12A61A194243A200EF2D10 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		8A12A600194243A200EF2D10 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A12A601194243A200EF2D10 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8A12A609194243A200EF2D10 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A12A60A194243A200EF2D10 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		8A12A61F194243A200EF2D10 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A12A620194243A200EF2D10 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8A12A624194243A200EF2D10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		8A12A625194243A200EF2D10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8A12A627194243A200EF2D10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pea/Pea-Prefix.pch";
+				INFOPLIST_FILE = "Pea/Pea-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8A12A628194243A200EF2D10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pea/Pea-Prefix.pch";
+				INFOPLIST_FILE = "Pea/Pea-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		8A12A62A194243A200EF2D10 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Pea.app/Pea";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pea/Pea-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "PeaTests/PeaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		8A12A62B194243A200EF2D10 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Pea.app/Pea";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Pea/Pea-Prefix.pch";
+				INFOPLIST_FILE = "PeaTests/PeaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8A12A5EF194243A200EF2D10 /* Build configuration list for PBXProject "Pea" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A12A624194243A200EF2D10 /* Debug */,
+				8A12A625194243A200EF2D10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8A12A626194243A200EF2D10 /* Build configuration list for PBXNativeTarget "Pea" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A12A627194243A200EF2D10 /* Debug */,
+				8A12A628194243A200EF2D10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		8A12A629194243A200EF2D10 /* Build configuration list for PBXNativeTarget "PeaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8A12A62A194243A200EF2D10 /* Debug */,
+				8A12A62B194243A200EF2D10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8A12A5EC194243A200EF2D10 /* Project object */;
+}
