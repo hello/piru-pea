@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HEPViewController : UIViewController
+@interface HEPAuthenticationViewController : UIViewController<UITextFieldDelegate>
 
 @end

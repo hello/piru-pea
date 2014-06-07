@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1AEA82E16D464D73964C084B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C46C0DA3D3C40FA832D832F /* libPods.a */; };
 		8A12A5F8194243A200EF2D10 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A5F7194243A200EF2D10 /* Foundation.framework */; };
 		8A12A5FA194243A200EF2D10 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A5F9194243A200EF2D10 /* CoreGraphics.framework */; };
 		8A12A5FC194243A200EF2D10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A5FB194243A200EF2D10 /* UIKit.framework */; };
@@ -14,13 +15,18 @@
 		8A12A604194243A200EF2D10 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A603194243A200EF2D10 /* main.m */; };
 		8A12A608194243A200EF2D10 /* HEPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A607194243A200EF2D10 /* HEPAppDelegate.m */; };
 		8A12A60B194243A200EF2D10 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A12A609194243A200EF2D10 /* Main.storyboard */; };
-		8A12A60E194243A200EF2D10 /* HEPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A60D194243A200EF2D10 /* HEPViewController.m */; };
+		8A12A60E194243A200EF2D10 /* HEPAuthenticationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A60D194243A200EF2D10 /* HEPAuthenticationViewController.m */; };
 		8A12A610194243A200EF2D10 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A12A60F194243A200EF2D10 /* Images.xcassets */; };
 		8A12A617194243A200EF2D10 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A616194243A200EF2D10 /* XCTest.framework */; };
 		8A12A618194243A200EF2D10 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A5F7194243A200EF2D10 /* Foundation.framework */; };
 		8A12A619194243A200EF2D10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A5FB194243A200EF2D10 /* UIKit.framework */; };
 		8A12A621194243A200EF2D10 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A12A61F194243A200EF2D10 /* InfoPlist.strings */; };
 		8A12A623194243A200EF2D10 /* PeaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A622194243A200EF2D10 /* PeaTests.m */; };
+		8A12A62F1942651D00EF2D10 /* HEPAuthorizationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A62E1942651D00EF2D10 /* HEPAuthorizationService.m */; };
+		8A12A633194271F500EF2D10 /* HEPAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A632194271F500EF2D10 /* HEPAPI.m */; };
+		8A12A636194273BB00EF2D10 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A12A638194273BB00EF2D10 /* Localizable.strings */; };
+		8AF35BEA1942842D001C1507 /* HEPCentralManagerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF35BE91942842D001C1507 /* HEPCentralManagerDelegate.m */; };
+		8AF35BED19428E97001C1507 /* HEPDevicePickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF35BEC19428E97001C1507 /* HEPDevicePickerTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C46C0DA3D3C40FA832D832F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A12A5F4194243A200EF2D10 /* Pea.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pea.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A12A5F7194243A200EF2D10 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		8A12A5F9194243A200EF2D10 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -45,14 +52,25 @@
 		8A12A606194243A200EF2D10 /* HEPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HEPAppDelegate.h; sourceTree = "<group>"; };
 		8A12A607194243A200EF2D10 /* HEPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HEPAppDelegate.m; sourceTree = "<group>"; };
 		8A12A60A194243A200EF2D10 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		8A12A60C194243A200EF2D10 /* HEPViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HEPViewController.h; sourceTree = "<group>"; };
-		8A12A60D194243A200EF2D10 /* HEPViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HEPViewController.m; sourceTree = "<group>"; };
+		8A12A60C194243A200EF2D10 /* HEPAuthenticationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HEPAuthenticationViewController.h; sourceTree = "<group>"; };
+		8A12A60D194243A200EF2D10 /* HEPAuthenticationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HEPAuthenticationViewController.m; sourceTree = "<group>"; };
 		8A12A60F194243A200EF2D10 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8A12A615194243A200EF2D10 /* PeaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PeaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A12A616194243A200EF2D10 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		8A12A61E194243A200EF2D10 /* PeaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PeaTests-Info.plist"; sourceTree = "<group>"; };
 		8A12A620194243A200EF2D10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8A12A622194243A200EF2D10 /* PeaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PeaTests.m; sourceTree = "<group>"; };
+		8A12A62D1942651D00EF2D10 /* HEPAuthorizationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPAuthorizationService.h; sourceTree = "<group>"; };
+		8A12A62E1942651D00EF2D10 /* HEPAuthorizationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPAuthorizationService.m; sourceTree = "<group>"; };
+		8A12A630194268DB00EF2D10 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		8A12A631194271F500EF2D10 /* HEPAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPAPI.h; sourceTree = "<group>"; };
+		8A12A632194271F500EF2D10 /* HEPAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPAPI.m; sourceTree = "<group>"; };
+		8A12A637194273BB00EF2D10 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8AF35BE81942842D001C1507 /* HEPCentralManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPCentralManagerDelegate.h; sourceTree = "<group>"; };
+		8AF35BE91942842D001C1507 /* HEPCentralManagerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPCentralManagerDelegate.m; sourceTree = "<group>"; };
+		8AF35BEB19428E97001C1507 /* HEPDevicePickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPDevicePickerTableViewController.h; sourceTree = "<group>"; };
+		8AF35BEC19428E97001C1507 /* HEPDevicePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPDevicePickerTableViewController.m; sourceTree = "<group>"; };
+		F5B454B4CDC94BCF99C7E253 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +81,7 @@
 				8A12A5FA194243A200EF2D10 /* CoreGraphics.framework in Frameworks */,
 				8A12A5FC194243A200EF2D10 /* UIKit.framework in Frameworks */,
 				8A12A5F8194243A200EF2D10 /* Foundation.framework in Frameworks */,
+				1AEA82E16D464D73964C084B /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +105,7 @@
 				8A12A61C194243A200EF2D10 /* PeaTests */,
 				8A12A5F6194243A200EF2D10 /* Frameworks */,
 				8A12A5F5194243A200EF2D10 /* Products */,
+				F5B454B4CDC94BCF99C7E253 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +125,7 @@
 				8A12A5F9194243A200EF2D10 /* CoreGraphics.framework */,
 				8A12A5FB194243A200EF2D10 /* UIKit.framework */,
 				8A12A616194243A200EF2D10 /* XCTest.framework */,
+				4C46C0DA3D3C40FA832D832F /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -112,11 +133,14 @@
 		8A12A5FD194243A200EF2D10 /* Pea */ = {
 			isa = PBXGroup;
 			children = (
+				8A12A630194268DB00EF2D10 /* Podfile */,
+				8AF35BE41942810E001C1507 /* Pill */,
+				8A12A62C194264FA00EF2D10 /* API */,
 				8A12A606194243A200EF2D10 /* HEPAppDelegate.h */,
 				8A12A607194243A200EF2D10 /* HEPAppDelegate.m */,
 				8A12A609194243A200EF2D10 /* Main.storyboard */,
-				8A12A60C194243A200EF2D10 /* HEPViewController.h */,
-				8A12A60D194243A200EF2D10 /* HEPViewController.m */,
+				8A12A60C194243A200EF2D10 /* HEPAuthenticationViewController.h */,
+				8A12A60D194243A200EF2D10 /* HEPAuthenticationViewController.m */,
 				8A12A60F194243A200EF2D10 /* Images.xcassets */,
 				8A12A5FE194243A200EF2D10 /* Supporting Files */,
 			);
@@ -130,6 +154,7 @@
 				8A12A600194243A200EF2D10 /* InfoPlist.strings */,
 				8A12A603194243A200EF2D10 /* main.m */,
 				8A12A605194243A200EF2D10 /* Pea-Prefix.pch */,
+				8A12A638194273BB00EF2D10 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -152,6 +177,28 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		8A12A62C194264FA00EF2D10 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				8A12A62D1942651D00EF2D10 /* HEPAuthorizationService.h */,
+				8A12A62E1942651D00EF2D10 /* HEPAuthorizationService.m */,
+				8A12A631194271F500EF2D10 /* HEPAPI.h */,
+				8A12A632194271F500EF2D10 /* HEPAPI.m */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		8AF35BE41942810E001C1507 /* Pill */ = {
+			isa = PBXGroup;
+			children = (
+				8AF35BE81942842D001C1507 /* HEPCentralManagerDelegate.h */,
+				8AF35BE91942842D001C1507 /* HEPCentralManagerDelegate.m */,
+				8AF35BEB19428E97001C1507 /* HEPDevicePickerTableViewController.h */,
+				8AF35BEC19428E97001C1507 /* HEPDevicePickerTableViewController.m */,
+			);
+			name = Pill;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -159,9 +206,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8A12A626194243A200EF2D10 /* Build configuration list for PBXNativeTarget "Pea" */;
 			buildPhases = (
+				819D37E2C2594CAF83A720C0 /* Check Pods Manifest.lock */,
 				8A12A5F0194243A200EF2D10 /* Sources */,
 				8A12A5F1194243A200EF2D10 /* Frameworks */,
 				8A12A5F2194243A200EF2D10 /* Resources */,
+				E69D5E08B3A04563BA6F22C4 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -200,6 +249,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = Hello;
 				TargetAttributes = {
+					8A12A5F3194243A200EF2D10 = {
+						DevelopmentTeam = 7733U57KMV;
+					};
 					8A12A614194243A200EF2D10 = {
 						TestTargetID = 8A12A5F3194243A200EF2D10;
 					};
@@ -230,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A12A610194243A200EF2D10 /* Images.xcassets in Resources */,
+				8A12A636194273BB00EF2D10 /* Localizable.strings in Resources */,
 				8A12A602194243A200EF2D10 /* InfoPlist.strings in Resources */,
 				8A12A60B194243A200EF2D10 /* Main.storyboard in Resources */,
 			);
@@ -245,14 +298,51 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		819D37E2C2594CAF83A720C0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E69D5E08B3A04563BA6F22C4 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		8A12A5F0194243A200EF2D10 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8AF35BED19428E97001C1507 /* HEPDevicePickerTableViewController.m in Sources */,
+				8A12A633194271F500EF2D10 /* HEPAPI.m in Sources */,
 				8A12A608194243A200EF2D10 /* HEPAppDelegate.m in Sources */,
-				8A12A60E194243A200EF2D10 /* HEPViewController.m in Sources */,
+				8AF35BEA1942842D001C1507 /* HEPCentralManagerDelegate.m in Sources */,
+				8A12A60E194243A200EF2D10 /* HEPAuthenticationViewController.m in Sources */,
 				8A12A604194243A200EF2D10 /* main.m in Sources */,
+				8A12A62F1942651D00EF2D10 /* HEPAuthorizationService.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +387,14 @@
 				8A12A620194243A200EF2D10 /* en */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8A12A638194273BB00EF2D10 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8A12A637194273BB00EF2D10 /* Base */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -374,26 +472,34 @@
 		};
 		8A12A627194243A200EF2D10 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5B454B4CDC94BCF99C7E253 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pea/Pea-Prefix.pch";
 				INFOPLIST_FILE = "Pea/Pea-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
 		};
 		8A12A628194243A200EF2D10 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5B454B4CDC94BCF99C7E253 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Pea/Pea-Prefix.pch";
 				INFOPLIST_FILE = "Pea/Pea-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -457,6 +563,7 @@
 				8A12A628194243A200EF2D10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8A12A629194243A200EF2D10 /* Build configuration list for PBXNativeTarget "PeaTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +572,7 @@
 				8A12A62B194243A200EF2D10 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

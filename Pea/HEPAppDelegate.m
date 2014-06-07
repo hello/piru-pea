@@ -7,12 +7,15 @@
 //
 
 #import "HEPAppDelegate.h"
+#import "HEPAuthorizationService.h"
 
 @implementation HEPAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    if ([HEPAuthorizationService isAuthorized]) {
+        // TODO present device list or show sleep options
+    }
     return YES;
 }
 							
