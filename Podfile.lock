@@ -9,18 +9,16 @@ PODS:
   - AFNetworking/Security (2.2.4)
   - AFNetworking/Serialization (2.2.4)
   - FXKeychain (1.5.1)
-  - Mantle (1.5):
-    - Mantle/extobjc
-  - Mantle/extobjc (1.5)
+  - LGBluetooth (1.1.2)
 
 DEPENDENCIES:
   - AFNetworking/NSURLSession
   - FXKeychain
-  - Mantle
+  - LGBluetooth
 
 SPEC CHECKSUMS:
   AFNetworking: ab63e259fe91eef4519b371ef0a4955af0e73e64
   FXKeychain: beb642a4218ba783507af08865eda05e9b26a612
-  Mantle: c67a7e45e14196ed42b2a7cbb98ff6a9920e6b92
+  LGBluetooth: 5876a0e848a6e94d674d011aa00ac53fed0594b8
 
 COCOAPODS: 0.33.1
