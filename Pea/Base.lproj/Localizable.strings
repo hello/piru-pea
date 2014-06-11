@@ -6,4 +6,34 @@
   Copyright (c) 2014 Hello. All rights reserved.
 */
 
+"actions.cancel" = "Cancel";
+"actions.save" = "Save";
+
+"authorization.title" = "Sleep Tracker";
 "authorization.no-token" = "No access token present";
+"authorization.set-url.button" = "Set URL";
+"authorization.sign-in.button" = "Sign in";
+"authorization.set-url.title" = "Update API URL";
+"authorization.set-url.message" = "Set the location of the sleep tracking API";
+"authorization.set-url.action.save" = "Save";
+"authorization.set-url.action.reset" = "Reset to Default";
+"authorization.set-url.action.cancel" = "Cancel";
+"authorization.failed-url.title" = "URL Not Recognized";
+"authorization.failed-url.message" = "The system could not understand the provided URL. Please try again.";
+
+"bluetooth.not-enabled.message" = "Please enable bluetooth to continue using this app.";
+"bluetooth.not-enabled.title" = "Bluetooth is Disabled";
+
+"picker.peripheral.rssi.format" = "Signal Strength: %@";
+"picker.title" = "Add Device";
+
+"device-info.title" = "Calibrate Device";
+"device-info.calibration.message" = "Place your device on a flat serface and press the button when ready.";
+"device-info.time.format" = "Current Time: %@";
+"device-info.action.calibrate" = "Calibrate";
+
+"device-list.title" = "Connected Devices";
+
+"tracker.sign-out.title" = "Sign Out";
+"tracker.config.title" = "Devices";
+"tracker.title" = "Sleep Tracker";

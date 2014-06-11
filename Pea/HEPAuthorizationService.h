@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Notification sent when a user is authorized
+ */
+extern NSString* const HEPAuthorizationServiceDidAuthorizeNotification;
+
+/**
+ *  Notification sent when a user is deauthorized
+ */
+extern NSString* const HEPAuthorizationServiceDidDeauthorizeNotification;
+
 @interface HEPAuthorizationService : NSObject
 
 /**
@@ -18,7 +28,12 @@
  *  @param password the password for the given username
  *  @param block    a block invoked after the authentication attempt is completed
  */
-+ (void)authorizeWithUsername:(NSString*)username password:(NSString*)password callback:(void(^)(NSError* error))block;
++ (void)authorizeWithUsername:(NSString*)username password:(NSString*)password callback:(void (^)(NSError* error))block;
+
+/**
+ *  Load any cached credentials for use in API requests
+ */
++ (void)authorizeRequestsFromKeychain;
 
 /**
  *  Deauthorize future requests and remove the active credentials from the keychain.

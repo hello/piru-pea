@@ -10,34 +10,114 @@
 #import "HEPAuthenticationViewController.h"
 #import "HEPAuthorizationService.h"
 #import "HEPDevicePickerTableViewController.h"
+#import "HEPAPIClient.h"
 
-@interface HEPAuthenticationViewController ()
-@property (weak, nonatomic) IBOutlet UITextField *usernameField;
-@property (weak, nonatomic) IBOutlet UITextField *passwordField;
-@property (weak, nonatomic) IBOutlet UIButton *logInButton;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicatorView;
+static NSInteger const HEPURLAlertButtonIndexSave = 1;
+static NSInteger const HEPURLAlertButtonIndexReset = 2;
 
+@interface HEPAuthenticationViewController () <UIAlertViewDelegate>
+@property (weak, nonatomic) IBOutlet UITextField* usernameField;
+@property (weak, nonatomic) IBOutlet UITextField* passwordField;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView* activityIndicatorView;
+
+@property (strong, nonatomic) IBOutlet UIView* view;
 @end
 
 @implementation HEPAuthenticationViewController
 
-- (IBAction)didTapLogInButton:(id)sender {
-    self.logInButton.enabled = NO;
+- (id)init
+{
+    self = [super initWithNibName:NSStringFromClass([HEPAuthenticationViewController class]) bundle:nil];
+
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.title = NSLocalizedString(@"authorization.title", nil);
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"authorization.set-url.button", nil)
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:self
+                                                                            action:@selector(setAPIURL:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"authorization.sign-in.button", nil)
+                                                                              style:UIBarButtonItemStyleBordered
+                                                                             target:self
+                                                                             action:@selector(didTapLogInButton:)];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+}
+
+- (void)presentPeripheralPickerAnimated:(BOOL)animated
+{
+    HEPDevicePickerTableViewController* pickerController = [HEPDevicePickerTableViewController new];
+    [self.navigationController pushViewController:pickerController animated:animated];
+}
+
+- (void)showURLUpdateAlertView
+{
+    UIAlertView* URLAlertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"authorization.set-url.title", nil)
+                                                           message:NSLocalizedString(@"authorization.set-url.message", nil)
+                                                          delegate:self
+                                                 cancelButtonTitle:NSLocalizedString(@"actions.cancel", nil)
+                                                 otherButtonTitles:NSLocalizedString(@"actions.save", nil), NSLocalizedString(@"authorization.set-url.action.reset", nil), nil];
+    URLAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField* URLField = [URLAlertView textFieldAtIndex:0];
+    URLField.text = [HEPAPIClient baseURL].absoluteString;
+    URLField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [URLAlertView show];
+}
+
+#pragma mark - Actions
+
+- (IBAction)didTapLogInButton:(id)sender
+{
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     [self.activityIndicatorView startAnimating];
     __weak typeof(self) weakSelf = self;
-    [HEPAuthorizationService authorizeWithUsername:self.usernameField.text password:self.passwordField.text callback:^(NSError *error) {
+    [HEPAuthorizationService authorizeWithUsername:self.usernameField.text password:self.passwordField.text callback:^(NSError* error) {
         typeof(self) strongSelf = weakSelf;
         [strongSelf.activityIndicatorView stopAnimating];
-        strongSelf.logInButton.enabled = YES;
+        strongSelf.navigationItem.rightBarButtonItem.enabled = YES;
         if (error) {
             [[[UIAlertView alloc] initWithTitle:@"Log in Failed" message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
             return;
         }
-        [strongSelf presentPeripheralPicker];
+        [strongSelf.navigationController dismissViewControllerAnimated:YES completion:NULL];
     }];
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+- (IBAction)setAPIURL:(id)sender
+{
+    [self showURLUpdateAlertView];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView*)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    switch (buttonIndex) {
+    case HEPURLAlertButtonIndexReset: {
+        [HEPAPIClient resetToDefaultBaseURL];
+        break;
+    }
+    case HEPURLAlertButtonIndexSave: {
+        UITextField* URLField = [alertView textFieldAtIndex:0];
+        if (![HEPAPIClient setBaseURLFromPath:URLField.text]) {
+            [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"authorization.failed-url.title", nil)
+                                        message:NSLocalizedString(@"authorization.failed-url.message", nil)
+                                       delegate:self
+                              cancelButtonTitle:NSLocalizedString(@"actions.cancel", nil)
+                              otherButtonTitles:nil] show];
+        }
+        break;
+    }
+    }
+}
+
+#pragma mark - UITextFieldDelegate
+
+- (BOOL)textField:(UITextField*)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString*)string
+{
     NSString* newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
     UITextField* otherField;
     if ([textField isEqual:self.usernameField]) {
@@ -45,14 +125,9 @@
     } else {
         otherField = self.usernameField;
     }
-    self.logInButton.enabled = newText.length > 0 && otherField.text.length > 0;
+    self.navigationItem.rightBarButtonItem.enabled = newText.length > 0 && otherField.text.length > 0;
 
     return YES;
-}
-
-- (void)presentPeripheralPicker {
-    HEPDevicePickerTableViewController* pickerController = [HEPDevicePickerTableViewController new];
-    [self presentViewController:pickerController animated:YES completion:NULL];
 }
 
 @end

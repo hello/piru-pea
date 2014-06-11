@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HEPDevicePickerTableViewController : UITableViewController<UITableViewDataSource>
+@interface HEPDevicePickerTableViewController : UITableViewController<UITableViewDataSource, UITableViewDelegate>
 
 @end
