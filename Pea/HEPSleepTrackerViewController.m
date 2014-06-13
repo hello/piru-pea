@@ -144,7 +144,7 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
                                                   otherButtonTitles:nil];
 
         for (HEPDevice* device in self.devices) {
-            [sheet addButtonWithTitle:device.name];
+            [sheet addButtonWithTitle:device.nickname];
         }
         [sheet addButtonWithTitle:NSLocalizedString(@"actions.cancel", nil)];
         sheet.cancelButtonIndex = self.devices.count;

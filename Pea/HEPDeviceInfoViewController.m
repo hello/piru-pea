@@ -39,7 +39,7 @@
     [super viewDidLoad];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss)];
     self.title = NSLocalizedString(@"device-info.title", nil);
-    self.nameLabel.text = self.device.name;
+    self.nameLabel.text = self.device.nickname;
     self.descriptionLabel.text = NSLocalizedString(@"device-info.calibration.message", nil);
     self.identifierLabel.text = self.device.identifier;
 }

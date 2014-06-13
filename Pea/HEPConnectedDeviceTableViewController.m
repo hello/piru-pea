@@ -67,7 +67,7 @@ static NSString* const HEPConnectedDeviceCellIdentifier = @"HEPConnectedDeviceCe
 {
     HEPDeviceTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:HEPConnectedDeviceCellIdentifier forIndexPath:indexPath];
     HEPDevice* device = [self deviceAtIndexPath:indexPath];
-    cell.nameLabel.text = device.name;
+    cell.nameLabel.text = device.nickname;
     cell.identifierLabel.text = device.identifier;
     cell.signalStrengthLabel.text = nil;
     return cell;

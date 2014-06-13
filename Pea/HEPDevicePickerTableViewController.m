@@ -19,12 +19,13 @@
 static NSString* const pillServiceUUIDString = @"0000E110-1212-EFDE-1523-785FEABCD123";
 static NSString* const pillCellIdentifier = @"pillCell";
 
-@interface HEPDevicePickerTableViewController ()
+@interface HEPDevicePickerTableViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSArray* discoveredDevices;
 @property (nonatomic, strong) NSMutableArray* discoveredDevicesRSSI;
 @property (nonatomic, strong) HEPPeripheralManager* deviceManager;
 @property (nonatomic, strong) UIActivityIndicatorView* searchIndicatorView;
+@property (nonatomic, strong) NSIndexPath* selectedDeviceIndexPath;
 @property (nonatomic, getter=isScanningForServices) BOOL scanningForServices;
 @end
 
@@ -141,8 +142,35 @@ static NSString* const pillCellIdentifier = @"pillCell";
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    LGPeripheral* peripheral = [self deviceAtIndexPath:indexPath];
-    HEPDevice* device = [[HEPDevice alloc] initWithName:peripheral.cbPeripheral.name identifier:peripheral.UUIDString];
+    self.selectedDeviceIndexPath = indexPath;
+    [self showNicknamePickerAlertView];
+}
+
+- (void)showNicknamePickerAlertView
+{
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"device-list.nickname-device.title", nil)
+                                                        message:NSLocalizedString(@"device-list.nickname-device.message", nil)
+                                                       delegate:self
+                                              cancelButtonTitle:NSLocalizedString(@"actions.cancel", nil)
+                                              otherButtonTitles:NSLocalizedString(@"actions.save", nil), nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView*)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+        return;
+
+    LGPeripheral* peripheral = [self deviceAtIndexPath:self.selectedDeviceIndexPath];
+    NSString* nickname = [alertView textFieldAtIndex:0].text;
+    if (nickname.length == 0) {
+        nickname = peripheral.cbPeripheral.name;
+    }
+
+    HEPDevice* device = [[HEPDevice alloc] initWithName:peripheral.cbPeripheral.name nickname:nickname identifier:peripheral.UUIDString];
     [HEPDeviceService addDevice:device];
     if (!self.deviceManager || ![self.deviceManager.peripheral isEqual:peripheral])
         self.deviceManager = [[HEPPeripheralManager alloc] initWithPeripheral:peripheral];
