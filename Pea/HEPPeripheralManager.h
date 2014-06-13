@@ -8,19 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-@class CBCentralManager;
-@class CBPeripheral;
+@class LGPeripheral;
+@class LGCentralManager;
 
 /**
  *  Notification identifier sent when current time is set on a peripheral
  */
 extern NSString* const HEPDeviceManagerDidWriteCurrentTimeNotification;
 
-@interface HEPCBPeripheralManager : NSObject <CBPeripheralDelegate, CBCentralManagerDelegate>
+@interface HEPPeripheralManager : NSObject
 
-+ (CBCentralManager*)sharedCentralManager;
-
-- (instancetype)initWithPeripheral:(CBPeripheral*)peripheral;
+- (instancetype)initWithPeripheral:(LGPeripheral*)peripheral;
 
 - (void)writeCurrentTime;
 
@@ -32,6 +30,8 @@ extern NSString* const HEPDeviceManagerDidWriteCurrentTimeNotification;
 
 - (void)stopDataCollection;
 
+- (void)disconnect;
+
 - (NSData*)fetchData;
 
 /**
@@ -42,6 +42,6 @@ extern NSString* const HEPDeviceManagerDidWriteCurrentTimeNotification;
 /**
  *  The connected peripheral
  */
-@property (nonatomic, strong, readonly) CBPeripheral* peripheral;
+@property (nonatomic, strong, readonly) LGPeripheral* peripheral;
 
 @end
