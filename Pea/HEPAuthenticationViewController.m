@@ -80,7 +80,11 @@ static NSInteger const HEPURLAlertButtonIndexReset = 2;
         strongSelf.navigationItem.rightBarButtonItem.enabled = YES;
         [SVProgressHUD dismiss];
         if (error) {
-            [[[UIAlertView alloc] initWithTitle:@"Log in Failed" message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
+            [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"authorization.sign-in.failed.title", nil)
+                                        message:error.localizedDescription
+                                       delegate:nil
+                              cancelButtonTitle:nil
+                              otherButtonTitles:NSLocalizedString(@"actions.ok", nil), nil] show];
             return;
         }
         [strongSelf.navigationController dismissViewControllerAnimated:YES completion:NULL];

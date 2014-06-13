@@ -8,6 +8,7 @@
 
 "actions.cancel" = "Cancel";
 "actions.save" = "Save";
+"actions.ok" = "OK";
 "status.success" = "Done!";
 
 "authorization.title" = "Sleep Tracker";
@@ -21,7 +22,8 @@
 "authorization.set-url.action.cancel" = "Cancel";
 "authorization.failed-url.title" = "URL Not Recognized";
 "authorization.failed-url.message" = "The system could not understand the provided URL. Please try again.";
-"authorization.sign-in.loading-message" = "Signing in…";
+"authorization.sign-in.loading-message" = "Signing in";
+"authorization.sign-in.failed.title" = "Sign in Failed";
 
 "bluetooth.not-enabled.message" = "Please enable bluetooth to continue using this app.";
 "bluetooth.not-enabled.title" = "Bluetooth is Disabled";
@@ -33,12 +35,16 @@
 "device-info.calibration.message" = "Place your device on a flat serface and press the button when ready.";
 "device-info.time.format" = "Current Time: %@";
 "device-info.action.calibrate" = "Calibrate";
-"device-info.action.calibrate.loading-message" = "Calibrating…";
+"device-info.action.calibrate.loading-message" = "Calibrating";
 
 "device-list.title" = "Connected Devices";
 "device-list.search.loading-message" = "Searching";
+"device-list.nickname-device.message" = "Enter a nickname to connect to this device.";
+"device-list.nickname-device.title" = "Enter a Nickname";
 
 "tracker.sign-out.title" = "Sign Out";
 "tracker.config.title" = "Devices";
 "tracker.title" = "Sleep Tracker";
 "tracker.pick-device.message" = "Select a connected device:";
+"tracker.start.title" = "Start Tracking";
+"tracker.stop.title" = "Stop Tracking";
