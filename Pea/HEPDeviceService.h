@@ -14,7 +14,6 @@
 
 + (BOOL)hasDevices;
 
-
 /**
  *  An array of devices archived to disk
  */
@@ -35,6 +34,13 @@
 + (void)removeDevice:(HEPDevice*)device;
 
 /**
+ *  Update a cached device with new data
+ *
+ *  @param device device to update
+ */
++ (void)updateDevice:(HEPDevice*)device;
+
+/**
  *  Store a given array of device objects, removing the existing store
  *
  *  @param devices devices to archive
@@ -45,5 +51,14 @@
  *  Delete all devices in the existing store
  */
 + (void)removeAllDevices;
+
+/**
+ *  Finds a device in the disk store matching a given identifier
+ *
+ *  @param identifier the identifier to match
+ *
+ *  @return a matching device
+ */
++ (HEPDevice*)deviceWithIdentifier:(NSString*)identifier;
 
 @end

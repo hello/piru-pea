@@ -7,10 +7,11 @@
 //
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <CoreBluetooth/CBUUID.h>
+#import <LGBluetooth/LGBluetooth.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 #import "HEPDevicePickerTableViewController.h"
-#import "HEPCBPeripheralManager.h"
-#import "HEPCBCentralManagerBroadcastDelegate.h"
+#import "HEPPeripheralManager.h"
 #import "HEPDeviceTableViewCell.h"
 #import "HEPDeviceService.h"
 #import "HEPDevice.h"
@@ -22,7 +23,9 @@ static NSString* const pillCellIdentifier = @"pillCell";
 
 @property (nonatomic, strong) NSArray* discoveredDevices;
 @property (nonatomic, strong) NSMutableArray* discoveredDevicesRSSI;
-@property (nonatomic, strong) HEPCBPeripheralManager* deviceManager;
+@property (nonatomic, strong) HEPPeripheralManager* deviceManager;
+@property (nonatomic, strong) UIActivityIndicatorView* searchIndicatorView;
+@property (nonatomic, getter=isScanningForServices) BOOL scanningForServices;
 @end
 
 @implementation HEPDevicePickerTableViewController
@@ -40,9 +43,8 @@ static NSString* const pillCellIdentifier = @"pillCell";
 {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"picker.title", nil);
-    [[self tableView] registerNib:[UINib nibWithNibName:NSStringFromClass([HEPDeviceTableViewCell class]) bundle:nil]
-           forCellReuseIdentifier:pillCellIdentifier];
-    [[self tableView] setRowHeight:HEPDeviceTableViewCellHeight];
+    [self configureTableView];
+    [self configureNavigationBar];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -56,6 +58,11 @@ static NSString* const pillCellIdentifier = @"pillCell";
 {
     [super viewWillAppear:animated];
     [self registerObservers];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     [self scanForServices];
 }
 
@@ -64,25 +71,38 @@ static NSString* const pillCellIdentifier = @"pillCell";
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
+- (void)configureTableView
+{
+    [[self tableView] registerNib:[UINib nibWithNibName:NSStringFromClass([HEPDeviceTableViewCell class]) bundle:nil]
+           forCellReuseIdentifier:pillCellIdentifier];
+    [[self tableView] setRowHeight:HEPDeviceTableViewCellHeight];
+}
+
+- (void)configureNavigationBar
+{
+    UIBarButtonItem* refreshItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(scanForServices)];
+    self.navigationItem.rightBarButtonItem = refreshItem;
+}
+
 #pragma mark - Notification configuration
 
 - (void)registerObservers
 {
-    CBCentralManager* manager = [HEPCBPeripheralManager sharedCentralManager];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(centralManagerUpdatedState:) name:HEPCBCentralManagerDidUpdateStateNotification object:manager];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(centralManagerConnectedPeripheral:) name:HEPCBCentralManagerDidConnectPeripheralNotification object:manager];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(centralManagerDiscoveredPeripheral:) name:HEPCBCentralManagerDidDiscoverPeripheralNotification object:manager];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(centralManagerFailedToConnectPeripheral:) name:HEPCBCentralManagerDidFailToConnectPeripheralNotification object:manager];
     [self addObserver:self
            forKeyPath:NSStringFromSelector(@selector(discoveredDevices))
               options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
               context:NULL];
+    [[LGCentralManager sharedInstance] addObserver:self
+                                        forKeyPath:NSStringFromSelector(@selector(peripherals))
+                                           options:NSKeyValueObservingOptionNew
+                                           context:NULL];
 }
 
 - (void)unregisterObservers
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self removeObserver:self forKeyPath:NSStringFromSelector(@selector(discoveredDevices))];
+    [[LGCentralManager sharedInstance] removeObserver:self forKeyPath:NSStringFromSelector(@selector(peripherals))];
 }
 
 - (void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
@@ -91,6 +111,7 @@ static NSString* const pillCellIdentifier = @"pillCell";
         dispatch_async(dispatch_get_main_queue(), ^{
             [[self tableView] reloadData];
         });
+    } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(peripherals))]) {
     }
 }
 
@@ -101,7 +122,7 @@ static NSString* const pillCellIdentifier = @"pillCell";
     return self.discoveredDevices.count;
 }
 
-- (id)deviceAtIndexPath:(NSIndexPath*)indexPath
+- (LGPeripheral*)deviceAtIndexPath:(NSIndexPath*)indexPath
 {
     return self.discoveredDevices[indexPath.row];
 }
@@ -109,10 +130,10 @@ static NSString* const pillCellIdentifier = @"pillCell";
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
     HEPDeviceTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:pillCellIdentifier forIndexPath:indexPath];
-    CBPeripheral* device = [self deviceAtIndexPath:indexPath];
-    cell.nameLabel.text = device.name;
-    cell.identifierLabel.text = [device.identifier UUIDString];
-    cell.signalStrengthLabel.text = [NSString stringWithFormat:NSLocalizedString(@"picker.peripheral.rssi.format", nil), self.discoveredDevicesRSSI[indexPath.row]];
+    LGPeripheral* device = [self deviceAtIndexPath:indexPath];
+    cell.nameLabel.text = device.cbPeripheral.name;
+    cell.identifierLabel.text = device.UUIDString;
+    cell.signalStrengthLabel.text = nil; //[NSString stringWithFormat:NSLocalizedString(@"picker.peripheral.rssi.format", nil), self.discoveredDevicesRSSI[indexPath.row]];
     return cell;
 }
 
@@ -120,64 +141,39 @@ static NSString* const pillCellIdentifier = @"pillCell";
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    CBPeripheral* device = [self deviceAtIndexPath:indexPath];
-    [[HEPCBPeripheralManager sharedCentralManager] connectPeripheral:device options:nil];
+    LGPeripheral* peripheral = [self deviceAtIndexPath:indexPath];
+    HEPDevice* device = [[HEPDevice alloc] initWithName:peripheral.cbPeripheral.name identifier:peripheral.UUIDString];
+    [HEPDeviceService addDevice:device];
+    if (!self.deviceManager || ![self.deviceManager.peripheral isEqual:peripheral])
+        self.deviceManager = [[HEPPeripheralManager alloc] initWithPeripheral:peripheral];
+    [self dismissFromView];
 }
 
 #pragma mark - Central manager
 
-- (BOOL)centralManagerIsPoweredOn
-{
-    return [HEPCBPeripheralManager sharedCentralManager].state == CBCentralManagerStatePoweredOn;
-}
-
 - (void)scanForServices
 {
-    if ([self centralManagerIsPoweredOn]) {
-        [[HEPCBPeripheralManager sharedCentralManager] scanForPeripheralsWithServices:nil
-                                                                              options:nil];
-    }
+    if ([self isScanningForServices] || ![[LGCentralManager sharedInstance] isCentralReady])
+        return;
+
+    self.scanningForServices = YES;
+    __weak typeof(self) weakSelf = self;
+    [SVProgressHUD showWithStatus:NSLocalizedString(@"device-list.search.loading-message", nil) maskType:SVProgressHUDMaskTypeBlack];
+    [[LGCentralManager sharedInstance] scanForPeripheralsByInterval:3 completion:^(NSArray* peripherals) {
+        typeof(self) strongSelf = weakSelf;
+        [SVProgressHUD dismiss];
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"name.length > 0"];
+        strongSelf.discoveredDevices = [peripherals filteredArrayUsingPredicate:predicate];
+        strongSelf.scanningForServices = NO;
+    }];
 }
 
 - (void)stopScanningForServices
 {
-    if ([self centralManagerIsPoweredOn]) {
-        [[HEPCBPeripheralManager sharedCentralManager] stopScan];
-    }
-}
+    if (![[LGCentralManager sharedInstance] isCentralReady])
+        return;
 
-- (void)centralManagerUpdatedState:(NSNotification*)notification
-{
-    if ([self centralManagerIsPoweredOn]) {
-        [self scanForServices];
-    }
-}
-
-- (void)centralManagerDiscoveredPeripheral:(NSNotification*)notification
-{
-    CBPeripheral* peripheral = notification.userInfo[HEPCBCentralManagerPeripheralKey];
-    NSNumber* RSSI = notification.userInfo[HEPCBCentralManagerRSSIKey];
-    if (peripheral.name.length > 0) {
-        [self.discoveredDevicesRSSI addObject:RSSI];
-        self.discoveredDevices = [self.discoveredDevices arrayByAddingObject:peripheral];
-    }
-}
-
-- (void)centralManagerConnectedPeripheral:(NSNotification*)notification
-{
-    CBPeripheral* peripheral = notification.userInfo[HEPCBCentralManagerPeripheralKey];
-    HEPDevice* device = [[HEPDevice alloc] initWithName:peripheral.name identifier:[peripheral.identifier UUIDString]];
-    [HEPDeviceService addDevice:device];
-    if (!self.deviceManager || ![self.deviceManager.peripheral isEqual:peripheral])
-        self.deviceManager = [[HEPCBPeripheralManager alloc] initWithPeripheral:peripheral];
-    [self dismissFromView];
-}
-
-- (void)centralManagerFailedToConnectPeripheral:(NSNotification*)notification
-{
-    CBPeripheral* peripheral = notification.userInfo[HEPCBCentralManagerPeripheralKey];
-    NSString* errorDescription = notification.userInfo[NSLocalizedDescriptionKey];
-    NSLog(@"Peripheral (%@) failed to connect: %@", peripheral.name, errorDescription);
+    [[LGCentralManager sharedInstance] stopScanForPeripherals];
 }
 
 @end

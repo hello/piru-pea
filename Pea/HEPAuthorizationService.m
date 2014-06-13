@@ -15,7 +15,7 @@ NSString* const HEPAuthorizationServiceDidAuthorizeNotification = @"HEPAuthoriza
 NSString* const HEPAuthorizationServiceDidDeauthorizeNotification = @"HEPAuthorizationServiceDidDeauthorize";
 
 static NSString* const HEP_tokenPath = @"oauth2/token";
-static NSString* const HEP_applicationClientID = @"local_client_id";
+static NSString* const HEP_applicationClientID = @"iphone_pill";
 static NSString* const HEP_credentialsKey = @"credentials";
 static NSString* const HEP_accessTokenKey = @"access_token";
 static NSString* const HEP_authorizationHeaderKey = @"Authorization";

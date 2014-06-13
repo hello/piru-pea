@@ -5,17 +5,18 @@
 //  Created by Delisa Mason on 6/11/14.
 //  Copyright (c) 2014 Hello. All rights reserved.
 //
-
+#import <LGBluetooth/LGBluetooth.h>
 #import "HEPDeviceInfoViewController.h"
+#import "HEPPeripheralManager.h"
 #import "HEPDevice.h"
 
 @interface HEPDeviceInfoViewController ()
 
 @property (nonatomic, strong) HEPDevice* device;
+@property (nonatomic, strong) HEPPeripheralManager* manager;
 @property (weak, nonatomic) IBOutlet UILabel* nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel* descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel* identifierLabel;
-@property (weak, nonatomic) IBOutlet UILabel* dateLabel;
 @property (weak, nonatomic) IBOutlet UIButton* calibrationButton;
 @end
 
@@ -26,6 +27,9 @@
     self = [super initWithNibName:NSStringFromClass([HEPDeviceInfoViewController class]) bundle:nil];
     if (self) {
         _device = device;
+        NSUUID* deviceUUID = [[NSUUID alloc] initWithUUIDString:_device.identifier];
+        LGPeripheral* peripheral = [[[LGCentralManager sharedInstance] retrievePeripheralsWithIdentifiers:@[ deviceUUID ]] firstObject];
+        _manager = [[HEPPeripheralManager alloc] initWithPeripheral:peripheral];
     }
     return self;
 }
@@ -38,9 +42,6 @@
     self.nameLabel.text = self.device.name;
     self.descriptionLabel.text = NSLocalizedString(@"device-info.calibration.message", nil);
     self.identifierLabel.text = self.device.identifier;
-
-    // TODO: read time from device
-    self.dateLabel.text = [NSString stringWithFormat:NSLocalizedString(@"device-info.time.format", nil), [NSDate date]];
 }
 
 - (void)dismiss
@@ -50,6 +51,7 @@
 
 - (IBAction)calibrateDevice:(id)sender
 {
+    [self.manager calibrate];
 }
 
 @end

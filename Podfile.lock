@@ -1,24 +1,33 @@
 PODS:
-  - AFNetworking/NSURLConnection (2.2.4):
+  - AFNetworking/NSURLSession (2.3.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.2.4):
-    - AFNetworking/NSURLConnection
-  - AFNetworking/Reachability (2.2.4)
-  - AFNetworking/Security (2.2.4)
-  - AFNetworking/Serialization (2.2.4)
+  - AFNetworking/Reachability (2.3.0)
+  - AFNetworking/Security (2.3.0)
+  - AFNetworking/Serialization (2.3.0)
   - FXKeychain (1.5.1)
   - LGBluetooth (1.1.2)
+  - SVProgressHUD (1.0)
 
 DEPENDENCIES:
   - AFNetworking/NSURLSession
   - FXKeychain
-  - LGBluetooth
+  - LGBluetooth (from `https://github.com/SocialObjects-Software/LGBluetooth.git`, tag `v1.1.3`)
+  - SVProgressHUD (from `https://github.com/samvermette/SVProgressHUD.git`, commit `90e5921e0a0a782c7e06dd8d308031041c10f789`)
+
+EXTERNAL SOURCES:
+  LGBluetooth:
+    :git: https://github.com/SocialObjects-Software/LGBluetooth.git
+    :tag: v1.1.3
+  SVProgressHUD:
+    :commit: 90e5921e0a0a782c7e06dd8d308031041c10f789
+    :git: https://github.com/samvermette/SVProgressHUD.git
 
 SPEC CHECKSUMS:
-  AFNetworking: ab63e259fe91eef4519b371ef0a4955af0e73e64
+  AFNetworking: e7abefee64543aa978c9d759bc8892402b1ed7d1
   FXKeychain: beb642a4218ba783507af08865eda05e9b26a612
-  LGBluetooth: 5876a0e848a6e94d674d011aa00ac53fed0594b8
+  LGBluetooth: 94b197f47fc0e23f606d79665fddbd3e747761fb
+  SVProgressHUD: 5e10939a296debf5fe5a5895eda9539b8b2114f1
 
 COCOAPODS: 0.33.1

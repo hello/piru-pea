@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Hello. All rights reserved.
 //
 #import <CoreBluetooth/CoreBluetooth.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 #import "HEPAuthenticationViewController.h"
 #import "HEPAuthorizationService.h"
@@ -72,12 +73,12 @@ static NSInteger const HEPURLAlertButtonIndexReset = 2;
 - (IBAction)didTapLogInButton:(id)sender
 {
     self.navigationItem.rightBarButtonItem.enabled = NO;
-    [self.activityIndicatorView startAnimating];
+    [SVProgressHUD showWithStatus:NSLocalizedString(@"authorization.sign-in.loading-message", nil) maskType:SVProgressHUDMaskTypeBlack];
     __weak typeof(self) weakSelf = self;
     [HEPAuthorizationService authorizeWithUsername:self.usernameField.text password:self.passwordField.text callback:^(NSError* error) {
         typeof(self) strongSelf = weakSelf;
-        [strongSelf.activityIndicatorView stopAnimating];
         strongSelf.navigationItem.rightBarButtonItem.enabled = YES;
+        [SVProgressHUD dismiss];
         if (error) {
             [[[UIAlertView alloc] initWithTitle:@"Log in Failed" message:error.localizedDescription delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
             return;

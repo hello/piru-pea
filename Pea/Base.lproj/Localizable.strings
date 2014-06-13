@@ -8,6 +8,7 @@
 
 "actions.cancel" = "Cancel";
 "actions.save" = "Save";
+"status.success" = "Done!";
 
 "authorization.title" = "Sleep Tracker";
 "authorization.no-token" = "No access token present";
@@ -20,6 +21,7 @@
 "authorization.set-url.action.cancel" = "Cancel";
 "authorization.failed-url.title" = "URL Not Recognized";
 "authorization.failed-url.message" = "The system could not understand the provided URL. Please try again.";
+"authorization.sign-in.loading-message" = "Signing in…";
 
 "bluetooth.not-enabled.message" = "Please enable bluetooth to continue using this app.";
 "bluetooth.not-enabled.title" = "Bluetooth is Disabled";
@@ -31,9 +33,12 @@
 "device-info.calibration.message" = "Place your device on a flat serface and press the button when ready.";
 "device-info.time.format" = "Current Time: %@";
 "device-info.action.calibrate" = "Calibrate";
+"device-info.action.calibrate.loading-message" = "Calibrating…";
 
 "device-list.title" = "Connected Devices";
+"device-list.search.loading-message" = "Searching";
 
 "tracker.sign-out.title" = "Sign Out";
 "tracker.config.title" = "Devices";
 "tracker.title" = "Sleep Tracker";
+"tracker.pick-device.message" = "Select a connected device:";

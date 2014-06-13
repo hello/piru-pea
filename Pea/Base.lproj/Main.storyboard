@@ -17,29 +17,51 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3q7-hv-f8R">
-                                <rect key="frame" x="20" y="20" width="280" height="528"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="250"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="250" id="Q8G-YM-tBa"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
                                 <state key="normal" title="Start Tracking">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="didTapTrackingButton:" destination="G6t-bk-E4S" eventType="touchUpInside" id="O2O-TJ-nbO"/>
+                                    <action selector="startTracking:" destination="G6t-bk-E4S" eventType="touchUpInside" id="VDn-Nu-aih"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XkK-Ku-NV7">
+                                <rect key="frame" x="0.0" y="314" width="320" height="254"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
+                                <state key="normal" title="Stop Tracking">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="stopTracking:" destination="G6t-bk-E4S" eventType="touchUpInside" id="ioe-z9-0Eq"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.099374460289999994" green="0.0" blue="0.48758067259999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="3q7-hv-f8R" secondAttribute="trailing" constant="20" id="6uL-bC-hBa"/>
-                            <constraint firstItem="3q7-hv-f8R" firstAttribute="leading" secondItem="Uuj-iO-roF" secondAttribute="leading" constant="20" id="Hpf-Lt-TMq"/>
-                            <constraint firstItem="3q7-hv-f8R" firstAttribute="top" secondItem="Uuj-iO-roF" secondAttribute="top" constant="20" id="QpO-sf-TbG"/>
-                            <constraint firstAttribute="bottom" secondItem="3q7-hv-f8R" secondAttribute="bottom" constant="20" id="jUW-A5-Q8k"/>
+                            <constraint firstAttribute="trailing" secondItem="3q7-hv-f8R" secondAttribute="trailing" id="6uL-bC-hBa"/>
+                            <constraint firstItem="XkK-Ku-NV7" firstAttribute="top" secondItem="3q7-hv-f8R" secondAttribute="bottom" id="D2y-Ty-5ib"/>
+                            <constraint firstItem="3q7-hv-f8R" firstAttribute="leading" secondItem="Uuj-iO-roF" secondAttribute="leading" id="Hpf-Lt-TMq"/>
+                            <constraint firstItem="3q7-hv-f8R" firstAttribute="top" secondItem="Uuj-iO-roF" secondAttribute="top" constant="64" id="QpO-sf-TbG"/>
+                            <constraint firstItem="EHn-nV-gEh" firstAttribute="top" secondItem="XkK-Ku-NV7" secondAttribute="bottom" id="ZgD-dT-TMo"/>
+                            <constraint firstItem="XkK-Ku-NV7" firstAttribute="leading" secondItem="Uuj-iO-roF" secondAttribute="leading" id="eeH-Hk-0Xl"/>
+                            <constraint firstAttribute="trailing" secondItem="XkK-Ku-NV7" secondAttribute="trailing" id="hGD-vd-P6G"/>
                         </constraints>
                         <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
                         <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     </view>
                     <navigationItem key="navigationItem" title="Sleep Tracker" id="va0-cm-BwH"/>
+                    <connections>
+                        <outlet property="startTrackingButton" destination="3q7-hv-f8R" id="qC7-3w-fKA"/>
+                        <outlet property="stopTrackingButton" destination="XkK-Ku-NV7" id="C6H-sk-MqA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w82-6L-dSq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

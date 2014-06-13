@@ -7,7 +7,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HEPDeviceInfoViewController">
             <connections>
                 <outlet property="calibrationButton" destination="bOz-4Z-IsE" id="Eza-5S-oLW"/>
-                <outlet property="dateLabel" destination="aa5-bU-rHB" id="mEW-fR-zmW"/>
                 <outlet property="descriptionLabel" destination="AoX-ws-iJe" id="d7G-4x-ACq"/>
                 <outlet property="identifierLabel" destination="sQc-sn-WTp" id="OB7-Wc-TFi"/>
                 <outlet property="nameLabel" destination="VWd-LZ-opZ" id="0rE-Lt-mDy"/>
@@ -58,12 +57,6 @@
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aa5-bU-rHB" userLabel="Date Label">
-                    <rect key="frame" x="146" y="505" width="29" height="14"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                    <nil key="highlightedColor"/>
-                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -72,11 +65,8 @@
                 <constraint firstItem="VWd-LZ-opZ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="89" id="WPk-ge-h5y"/>
                 <constraint firstItem="AoX-ws-iJe" firstAttribute="top" secondItem="VWd-LZ-opZ" secondAttribute="bottom" constant="71" id="YFr-8u-nlK"/>
                 <constraint firstAttribute="bottom" secondItem="sQc-sn-WTp" secondAttribute="bottom" constant="20" id="Z8I-HT-mqC"/>
-                <constraint firstAttribute="bottom" secondItem="aa5-bU-rHB" secondAttribute="bottom" constant="49" id="apl-bi-2fJ"/>
                 <constraint firstItem="bOz-4Z-IsE" firstAttribute="top" secondItem="AoX-ws-iJe" secondAttribute="bottom" constant="48" id="duK-gk-xuE"/>
                 <constraint firstAttribute="centerX" secondItem="AoX-ws-iJe" secondAttribute="centerX" constant="-0.5" id="kbe-5q-Vdy"/>
-                <constraint firstItem="sQc-sn-WTp" firstAttribute="top" secondItem="aa5-bU-rHB" secondAttribute="bottom" constant="8" id="pLq-gl-ZCT"/>
-                <constraint firstAttribute="centerX" secondItem="aa5-bU-rHB" secondAttribute="centerX" id="rXD-Ju-cYh"/>
                 <constraint firstAttribute="centerX" secondItem="sQc-sn-WTp" secondAttribute="centerX" id="xhf-Mc-Pf4"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
