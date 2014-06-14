@@ -32,11 +32,16 @@ static NSString* const HEPConnectedDeviceCellIdentifier = @"HEPConnectedDeviceCe
 {
     [super viewDidLoad];
     self.title = NSLocalizedString(@"device-list.title", nil);
-    self.devices = [HEPDeviceService archivedDevices];
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([HEPDeviceTableViewCell class]) bundle:nil] forCellReuseIdentifier:HEPConnectedDeviceCellIdentifier];
     self.tableView.rowHeight = HEPDeviceTableViewCellHeight;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addDevice)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeView)];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.devices = [HEPDeviceService archivedDevices];
 }
 
 #pragma mark - Actions
