@@ -79,6 +79,9 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
 
 - (void)toggleDataCollectionState:(BOOL)shouldTrack forDevice:(HEPDevice*)device
 {
+    if (!device)
+        return;
+
     LGPeripheral* peripheral = [[[LGCentralManager sharedInstance] retrievePeripheralsWithIdentifiers:@[ [[NSUUID alloc] initWithUUIDString:device.identifier] ]] firstObject];
     HEPPeripheralManager* manager = [[HEPPeripheralManager alloc] initWithPeripheral:peripheral];
     if (shouldTrack) {

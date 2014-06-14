@@ -55,8 +55,7 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
 - (void)writeCurrentTime
 {
     [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
-        LGCharacteristic* deed  = [self characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
-        
+        LGCharacteristic* deed = [self characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
         [deed writeByte:0x6 completion:^(NSError *error) {
             unsigned char dateBytes[8] = {};
             readDateIntoArray(dateBytes);
@@ -105,7 +104,7 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
                     }];
                 }];
             } onUpdate:^(NSData *data, NSError *error) {
-                NSLog(@"Should get (near) zeroes: %@", data);
+                NSLog(@"Should get some values: %@", data);
             }];
         }];
     }];
@@ -120,7 +119,6 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
         LGCharacteristic* dood = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
         [deed writeByte:0x1 completion:^(NSError *error) {
             [dood readValueWithBlock:^(NSData *data, NSError *error) {
-                NSLog(@"should get 0x1: %@", data);
                 if (!error) {
                     [strongSelf updateDeviceWithDataRecordingState:YES];
                 }
@@ -139,7 +137,6 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
         LGCharacteristic* dood = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
         [deed writeByte:0x0 completion:^(NSError *error) {
             [dood readValueWithBlock:^(NSData *data, NSError *error) {
-                NSLog(@"should get 0x0: %@", data);
                 if (!error) {
                     [strongSelf updateDeviceWithDataRecordingState:NO];
                 }
@@ -157,9 +154,7 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
         LGCharacteristic* deed = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
         LGCharacteristic* dood = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
         [dood setNotifyValue:YES completion:^(NSError *error) {
-            [deed writeByte:0x3 completion:^(NSError *error) {
-                NSLog(@"Disconnected? %@", error);
-            }];
+            [deed writeByte:0x3 completion:^(NSError *error) {}];
         } onUpdate:^(NSData *data, NSError *error) {
             NSLog(@"Should get 0x3: %@", data);
         }];
