@@ -10,10 +10,13 @@
 #import "HEPDevicePickerTableViewController.h"
 #import "HEPDeviceInfoViewController.h"
 #import "HEPDeviceTableViewCell.h"
+#import "HEPActionTableViewCell.h"
+#import "HEPAuthorizationService.h"
 #import "HEPDeviceService.h"
 #import "HEPDevice.h"
 
 static NSString* const HEPConnectedDeviceCellIdentifier = @"HEPConnectedDeviceCellIdentifier";
+static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
 
 @interface HEPConnectedDeviceTableViewController ()
 
@@ -31,17 +34,28 @@ static NSString* const HEPConnectedDeviceCellIdentifier = @"HEPConnectedDeviceCe
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.title = NSLocalizedString(@"device-list.title", nil);
-    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([HEPDeviceTableViewCell class]) bundle:nil] forCellReuseIdentifier:HEPConnectedDeviceCellIdentifier];
-    self.tableView.rowHeight = HEPDeviceTableViewCellHeight;
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addDevice)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeView)];
+    [self configureNavigationBar];
+    [self configureTableView];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     self.devices = [HEPDeviceService archivedDevices];
+}
+
+- (void)configureNavigationBar
+{
+    self.title = NSLocalizedString(@"device-list.title", nil);
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addDevice)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeView)];
+}
+
+- (void)configureTableView
+{
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([HEPDeviceTableViewCell class]) bundle:nil] forCellReuseIdentifier:HEPConnectedDeviceCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([HEPActionTableViewCell class]) bundle:nil] forCellReuseIdentifier:HEPActionCellIdentifier];
+    self.tableView.rowHeight = HEPDeviceTableViewCellHeight;
 }
 
 #pragma mark - Actions
@@ -63,19 +77,32 @@ static NSString* const HEPConnectedDeviceCellIdentifier = @"HEPConnectedDeviceCe
     return self.devices[indexPath.row];
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView*)tableView
+{
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.devices.count;
+    return section == 0 ? self.devices.count : 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    HEPDeviceTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:HEPConnectedDeviceCellIdentifier forIndexPath:indexPath];
-    HEPDevice* device = [self deviceAtIndexPath:indexPath];
-    cell.nameLabel.text = device.nickname;
-    cell.identifierLabel.text = device.identifier;
-    cell.signalStrengthLabel.text = nil;
-    return cell;
+    if (indexPath.section == 0) {
+        HEPDeviceTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:HEPConnectedDeviceCellIdentifier forIndexPath:indexPath];
+        HEPDevice* device = [self deviceAtIndexPath:indexPath];
+        cell.nameLabel.text = device.nickname;
+        cell.identifierLabel.text = device.identifier;
+        cell.signalStrengthLabel.text = nil;
+        return cell;
+    } else if (indexPath.section == 1) {
+        HEPActionTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:HEPActionCellIdentifier forIndexPath:indexPath];
+        cell.actionLabel.text = NSLocalizedString(@"actions.sign-out", nil);
+        cell.actionLabel.textColor = [UIColor redColor];
+        return cell;
+    }
+    return nil;
 }
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath
@@ -93,13 +120,33 @@ static NSString* const HEPConnectedDeviceCellIdentifier = @"HEPConnectedDeviceCe
     }
 }
 
+- (NSString*)tableView:(UITableView*)tableView titleForHeaderInSection:(NSInteger)section
+{
+    switch (section) {
+    case 0:
+        return NSLocalizedString(@"device-list.devices.title", nil);
+    default:
+        return @"";
+    }
+}
+
 #pragma mark - Table view delegate
+
+- (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    return indexPath.section == 0 ? HEPDeviceTableViewCellHeight : 44.f;
+}
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    HEPDevice* device = [self deviceAtIndexPath:indexPath];
-    UINavigationController* wrapper = [[UINavigationController alloc] initWithRootViewController:[[HEPDeviceInfoViewController alloc] initWithDevice:device]];
-    [self.navigationController presentViewController:wrapper animated:YES completion:NULL];
+    if (indexPath.section == 0) {
+        HEPDevice* device = [self deviceAtIndexPath:indexPath];
+        UINavigationController* wrapper = [[UINavigationController alloc] initWithRootViewController:[[HEPDeviceInfoViewController alloc] initWithDevice:device]];
+        [self.navigationController presentViewController:wrapper animated:YES completion:NULL];
+    } else if (indexPath.section == 1) {
+        [HEPAuthorizationService deauthorize];
+        [self closeView];
+    }
 }
 
 @end

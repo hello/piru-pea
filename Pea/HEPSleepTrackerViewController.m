@@ -39,7 +39,9 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (![HEPDeviceService hasDevices]) {
+    if (![HEPAuthorizationService isAuthorized]) {
+        [self presentNavigationControllerForViewController:[HEPAuthenticationViewController new]];
+    } else if (![HEPDeviceService hasDevices]) {
         [self searchForDevices];
     }
 }
@@ -48,7 +50,6 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
 {
     self.title = NSLocalizedString(@"tracker.title", nil);
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"tracker.config.title", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(openConfig)];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"tracker.sign-out.title", nil) style:UIBarButtonItemStyleBordered target:self action:@selector(signOut)];
 }
 
 - (void)configureButtons
@@ -94,12 +95,6 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
 - (void)openConfig
 {
     [self presentNavigationControllerForViewController:[[HEPConnectedDeviceTableViewController alloc] init]];
-}
-
-- (void)signOut
-{
-    [HEPAuthorizationService deauthorize];
-    [self presentNavigationControllerForViewController:[[HEPAuthenticationViewController alloc] init]];
 }
 
 - (void)searchForDevices

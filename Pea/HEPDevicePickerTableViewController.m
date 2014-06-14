@@ -148,8 +148,8 @@ static NSString* const pillCellIdentifier = @"pillCell";
 
 - (void)showNicknamePickerAlertView
 {
-    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"device-list.nickname-device.title", nil)
-                                                        message:NSLocalizedString(@"device-list.nickname-device.message", nil)
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"picker.nickname-device.title", nil)
+                                                        message:NSLocalizedString(@"picker.nickname-device.message", nil)
                                                        delegate:self
                                               cancelButtonTitle:NSLocalizedString(@"actions.cancel", nil)
                                               otherButtonTitles:NSLocalizedString(@"actions.save", nil), nil];
