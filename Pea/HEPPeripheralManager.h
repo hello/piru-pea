@@ -11,6 +11,11 @@
 @class LGPeripheral;
 @class LGCentralManager;
 
+typedef void (^HEPDeviceErrorBlock)(NSError* error);
+
+extern NSString* const HEPDeviceServiceELLO;
+extern NSString* const HEPDeviceServiceFFA0;
+
 /**
  *  Notification identifier sent when current time is set on a peripheral
  */
@@ -20,19 +25,19 @@ extern NSString* const HEPDeviceManagerDidWriteCurrentTimeNotification;
 
 - (instancetype)initWithPeripheral:(LGPeripheral*)peripheral;
 
-- (void)writeCurrentTime;
+- (void)writeCurrentTimeWithCompletion:(HEPDeviceErrorBlock)completionBlock;
 
-- (void)readCurrentTime;
+- (void)readCurrentTimeWithCompletion:(HEPDeviceErrorBlock)completionBlock;
 
-- (void)calibrate;
+- (void)calibrateWithCompletion:(HEPDeviceErrorBlock)completionBlock;
 
-- (void)startDataCollection;
+- (void)startDataCollectionWithCompletion:(HEPDeviceErrorBlock)completionBlock;
 
-- (void)stopDataCollection;
+- (void)stopDataCollectionWithCompletion:(HEPDeviceErrorBlock)completionBlock;
 
-- (void)disconnect;
+- (void)disconnectWithCompletion:(HEPDeviceErrorBlock)completionBlock;
 
-- (NSData*)fetchData;
+- (NSData*)fetchDataWithCompletion:(HEPDeviceErrorBlock)completionBlock;
 
 /**
  *  A list of discovered named devices, populated by calling `scanForPeripherals`

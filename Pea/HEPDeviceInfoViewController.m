@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Hello. All rights reserved.
 //
 #import <LGBluetooth/LGBluetooth.h>
+#import <SVProgressHUD/SVProgressHUD.h>
+
 #import "HEPDeviceInfoViewController.h"
 #import "HEPPeripheralManager.h"
 #import "HEPDevice.h"
@@ -27,7 +29,7 @@
     self = [super initWithNibName:NSStringFromClass([HEPDeviceInfoViewController class]) bundle:nil];
     if (self) {
         _device = device;
-        NSUUID* deviceUUID = [[NSUUID alloc] initWithUUIDString:_device.identifier];
+        NSUUID* deviceUUID = [[NSUUID alloc] initWithUUIDString:device.identifier];
         LGPeripheral* peripheral = [[[LGCentralManager sharedInstance] retrievePeripheralsWithIdentifiers:@[ deviceUUID ]] firstObject];
         _manager = [[HEPPeripheralManager alloc] initWithPeripheral:peripheral];
     }
@@ -46,12 +48,21 @@
 
 - (void)dismiss
 {
-    [self.navigationController dismissViewControllerAnimated:YES completion:NULL];
+    [self.manager disconnectWithCompletion:^(NSError *error) {
+        [self.navigationController dismissViewControllerAnimated:YES completion:NULL];
+    }];
 }
 
 - (IBAction)calibrateDevice:(id)sender
 {
-    [self.manager calibrate];
+    [SVProgressHUD showWithStatus:NSLocalizedString(@"device-info.action.calibrate.loading-message", nil) maskType:SVProgressHUDMaskTypeBlack];
+    [self.manager calibrateWithCompletion:^(NSError* error) {
+        if (error) {
+            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+            return;
+        }
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"status.success", nil)];
+    }];
 }
 
 @end

@@ -38,9 +38,10 @@
 "device-info.calibration.message" = "Place your device on a flat serface and press the button when ready.";
 "device-info.time.format" = "Current Time: %@";
 "device-info.action.calibrate" = "Calibrate";
+"device-info.action.calibrate.failed" = "Calibration Failed";
 "device-info.action.calibrate.loading-message" = "Calibrating";
 
-"device-list.title" = "Configuration";
+"device-list.title" = "Settings";
 "device-list.search.loading-message" = "Searching";
 "device-list.devices.title" = "Connected Devices";
 

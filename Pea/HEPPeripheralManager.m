@@ -30,11 +30,11 @@ void readDateIntoArray(unsigned char bytes[8])
 
 NSString* const HEPDeviceManagerDidWriteCurrentTimeNotification = @"HEPDeviceManagerDidWriteCurrentTimeNotification";
 
-static NSString* const HEPDeviceServiceELLO = @"0000E110-1212-EFDE-1523-785FEABCD123";
-static NSString* const HEPDeviceServiceFFA0 = @"0000FFA0-1212-EFDE-1523-785FEABCD123";
+NSString* const HEPDeviceServiceELLO = @"0000E110-1212-EFDE-1523-785FEABCD123";
+NSString* const HEPDeviceServiceFFA0 = @"0000FFA0-1212-EFDE-1523-785FEABCD123";
 static NSString* const HEPDeviceCharacteristicDEED = @"DEED";
 static NSString* const HEPDeviceCharacteristicD00D = @"D00D";
-static NSString* const HEPDeviceCharacteristic2A0A = @"2A0A";
+static NSString* const HEPDeviceCharacteristicDayDateTime = @"2A0A";
 static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
 
 @interface HEPPeripheralManager ()
@@ -52,65 +52,94 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
     return self;
 }
 
-- (void)writeCurrentTime
+- (void)writeCurrentTimeWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
     [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
         LGCharacteristic* deed = [self characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
         [deed writeByte:0x6 completion:^(NSError *error) {
+            if (error) {
+                if (completionBlock)
+                    completionBlock(error);
+                return;
+            }
             unsigned char dateBytes[8] = {};
             readDateIntoArray(dateBytes);
             NSData* date = [NSData dataWithBytes:dateBytes length:8];
             NSLog(@"Write Current Time: %@", date);
             [deed writeValue:date completion:^(NSError *error) {
-                [self readCurrentTime];
+                if (completionBlock)
+                    completionBlock(error);
             }];
         }];
-    }];
+    } failureBlock:completionBlock];
 }
 
-- (void)readCurrentTime
+- (void)readCurrentTimeWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
     __weak typeof(self) weakSelf = self;
     [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
         typeof(self) strongSelf = weakSelf;
-        LGCharacteristic* read = [self characteristicWithUUIDString:HEPDeviceCharacteristic2A0A onService:helloService];
+        LGCharacteristic* read = [self characteristicWithUUIDString:HEPDeviceCharacteristicDayDateTime onService:helloService];
         [read setNotifyValue:YES completion:^(NSError *error) {
+            if (error) {
+                if (completionBlock)
+                    completionBlock(error);
+                return;
+            }
             LGCharacteristic* deed = [self characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
-            [deed writeByte:0x5 completion:^(NSError *error) {}];
+            [deed writeByte:0x5 completion:^(NSError *error) {
+                if (error) {
+                    if (completionBlock)
+                        completionBlock(error);
+                }
+            }];
         } onUpdate:^(NSData *data, NSError *error) {
-            NSLog(@"Current Time: %@", data);
-            [strongSelf disconnect];
+            if (completionBlock)
+                completionBlock(error);
+            [strongSelf disconnectWithCompletion:NULL];
         }];
-    }];
+    } failureBlock:completionBlock];
 }
 
-- (NSData*)fetchData
+- (NSData*)fetchDataWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
     return nil;
 }
 
-- (void)calibrate
+- (void)calibrateWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
     [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceFFA0 andPerformBlock:^(LGService* service) {
         LGService* helloService = [self serviceWithUUIDString:HEPDeviceServiceELLO];
         [helloService discoverCharacteristicsWithCompletion:^(NSArray *characteristics, NSError *error) {
             LGCharacteristic* ffaa = [self characteristicWithUUIDString:HEPDeviceCharacteristicFFAA onService:service];
             [ffaa setNotifyValue:YES completion:^(NSError *error) {
+                if (error) {
+                    if (completionBlock)
+                        completionBlock(error);
+                    return;
+                }
                 LGCharacteristic* deed = [self characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
                 LGCharacteristic* dood = [self characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
-                [deed writeByte:0x2 completion:^(NSError *writeError) {
+                [deed writeByte:0x2 completion:^(NSError *error) {
+                    if (error) {
+                        if (completionBlock)
+                            completionBlock(error);
+                        return;
+                    }
                     [dood readValueWithBlock:^(NSData *data, NSError *error) {
+                        if (completionBlock)
+                            completionBlock(error);
                         NSLog(@"should get 0x2: %@", data);
                     }];
                 }];
             } onUpdate:^(NSData *data, NSError *error) {
-                NSLog(@"Should get some values: %@", data);
+//                NSLog(@"Should get some values: %@", data);
             }];
         }];
-    }];
+    } failureBlock:completionBlock];
 }
 
-- (void)startDataCollection
+- (void)startDataCollectionWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
     __weak typeof(self) weakSelf = self;
     [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
@@ -118,17 +147,25 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
         LGCharacteristic* deed = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
         LGCharacteristic* dood = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
         [deed writeByte:0x1 completion:^(NSError *error) {
+            if (error) {
+                if (completionBlock)
+                    completionBlock(error);
+                return;
+            }
             [dood readValueWithBlock:^(NSData *data, NSError *error) {
-                if (!error) {
-                    [strongSelf updateDeviceWithDataRecordingState:YES];
+                if (error) {
+                    if (completionBlock)
+                        completionBlock(error);
+                    return;
                 }
-                [strongSelf disconnect];
+                [strongSelf updateDeviceWithDataRecordingState:YES];
+                [strongSelf disconnectWithCompletion:NULL];
             }];
         }];
-    }];
+    } failureBlock:completionBlock];
 }
 
-- (void)stopDataCollection
+- (void)stopDataCollectionWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
     __weak typeof(self) weakSelf = self;
     [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
@@ -136,57 +173,110 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
         LGCharacteristic* deed = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
         LGCharacteristic* dood = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
         [deed writeByte:0x0 completion:^(NSError *error) {
+            if (error) {
+                if (completionBlock)
+                    completionBlock(error);
+                return;
+            }
             [dood readValueWithBlock:^(NSData *data, NSError *error) {
-                if (!error) {
-                    [strongSelf updateDeviceWithDataRecordingState:NO];
+                if (error) {
+                    if (completionBlock)
+                        completionBlock(error);
+                    return;
                 }
-                [strongSelf disconnect];
+                [strongSelf updateDeviceWithDataRecordingState:NO];
+                [strongSelf disconnectWithCompletion:NULL];
             }];
         }];
-    }];
+    } failureBlock:completionBlock];
 }
 
-- (void)disconnect
+- (void)disconnectWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
+    if (![self isConnected]) {
+        if (completionBlock)
+            completionBlock(nil);
+        return;
+    }
+
     __weak typeof(self) weakSelf = self;
-    [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
+    [self discoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
         typeof(self) strongSelf = weakSelf;
         LGCharacteristic* deed = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
         LGCharacteristic* dood = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
         [dood setNotifyValue:YES completion:^(NSError *error) {
-            [deed writeByte:0x3 completion:^(NSError *error) {}];
+            if (error) {
+                if (completionBlock)
+                    completionBlock(error);
+                return;
+            }
+            [deed writeByte:0x3 completion:^(NSError *error) {
+                if (error) {
+                    if (completionBlock)
+                        completionBlock(error);
+                }
+            }];
         } onUpdate:^(NSData *data, NSError *error) {
-            NSLog(@"Should get 0x3: %@", data);
+            if (completionBlock)
+                completionBlock(error);
         }];
-    }];
+    } failureBlock:completionBlock];
 }
 
 #pragma mark - Private
 
-- (void)connectAndDiscoverServiceWithUUIDString:(NSString*)UUIDString andPerformBlock:(void (^)(LGService*))block
+- (BOOL)isConnected
 {
-    if (self.peripheral.cbPeripheral.state == CBPeripheralStateConnected) {
-        [self discoverServiceWithUUIDString:UUIDString andPerformBlock:block];
+    return self.peripheral.cbPeripheral.state == CBPeripheralStateConnected;
+}
+
+/**
+ *  Connects to a peripheral and discovers available services, invoking a block with a matching service
+ *  upon success.
+ *
+ *  @param UUIDString   UUID of a particular service on which characteristics are queried
+ *  @param successBlock block invoked when connection succeeds
+ *  @param failureBlock block invoked when connection fails
+ */
+- (void)connectAndDiscoverServiceWithUUIDString:(NSString*)UUIDString andPerformBlock:(void (^)(LGService*))successBlock failureBlock:(HEPDeviceErrorBlock)failureBlock
+{
+    if ([self isConnected]) {
+        [self discoverServiceWithUUIDString:UUIDString andPerformBlock:successBlock failureBlock:failureBlock];
     } else {
-        __block LGPeripheral* peripheral = self.peripheral;
         __weak typeof(self) weakSelf = self;
-        [peripheral connectWithCompletion:^(NSError* error) {
-            [weakSelf discoverServiceWithUUIDString:UUIDString andPerformBlock:block];
+        [self.peripheral connectWithTimeout:3 completion:^(NSError* error) {
+            typeof(self) strongSelf = weakSelf;
+            if (error) {
+                if (failureBlock)
+                    failureBlock(error);
+                return;
+            }
+            [strongSelf discoverServiceWithUUIDString:UUIDString andPerformBlock:successBlock failureBlock:failureBlock];
         }];
     }
 }
 
-- (void)discoverServiceWithUUIDString:(NSString*)UUIDString andPerformBlock:(void (^)(LGService*))block
+- (void)discoverServiceWithUUIDString:(NSString*)UUIDString andPerformBlock:(void (^)(LGService*))successBlock failureBlock:(HEPDeviceErrorBlock)failureBlock
 {
     [self.peripheral discoverServices:nil completion:^(NSArray* services, NSError* error) {
+        if (error) {
+            if (failureBlock)
+                failureBlock(error);
+            return;
+        }
         LGService* service = [self serviceWithUUIDString:UUIDString inArray:services];
         if (service.characteristics) {
-            if (block)
-                block(service);
+            if (successBlock)
+                successBlock(service);
         } else {
             [service discoverCharacteristicsWithCompletion:^(NSArray *characteristics, NSError *error) {
-                if (block)
-                    block(service);
+                if (error) {
+                    if (failureBlock)
+                        failureBlock(error);
+                    return;
+                }
+                if (successBlock)
+                    successBlock(service);
             }];
         }
     }];
