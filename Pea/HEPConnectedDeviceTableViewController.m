@@ -47,7 +47,6 @@ static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
 - (void)configureNavigationBar
 {
     self.title = NSLocalizedString(@"device-list.title", nil);
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addDevice)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(closeView)];
 }
 
@@ -56,6 +55,7 @@ static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([HEPDeviceTableViewCell class]) bundle:nil] forCellReuseIdentifier:HEPConnectedDeviceCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([HEPActionTableViewCell class]) bundle:nil] forCellReuseIdentifier:HEPActionCellIdentifier];
     self.tableView.rowHeight = HEPDeviceTableViewCellHeight;
+    self.tableView.separatorInset = UIEdgeInsetsMake(0, 20.f, 0, 20.f);
 }
 
 #pragma mark - Actions
@@ -72,6 +72,11 @@ static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
 
 #pragma mark - Table view data source
 
+- (BOOL)isDeviceIndexPath:(NSIndexPath*)indexPath
+{
+    return indexPath.section == 0 && indexPath.row < self.devices.count;
+}
+
 - (HEPDevice*)deviceAtIndexPath:(NSIndexPath*)indexPath
 {
     return self.devices[indexPath.row];
@@ -84,17 +89,22 @@ static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
 
 - (NSInteger)tableView:(UITableView*)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return section == 0 ? self.devices.count : 1;
+    return section == 0 ? (self.devices.count + 1) : 1;
 }
 
 - (UITableViewCell*)tableView:(UITableView*)tableView cellForRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    if (indexPath.section == 0) {
+    if ([self isDeviceIndexPath:indexPath]) {
         HEPDeviceTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:HEPConnectedDeviceCellIdentifier forIndexPath:indexPath];
         HEPDevice* device = [self deviceAtIndexPath:indexPath];
         cell.nameLabel.text = device.nickname;
         cell.identifierLabel.text = device.identifier;
         cell.signalStrengthLabel.text = nil;
+        return cell;
+    } else if (indexPath.section == 0) {
+        HEPActionTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:HEPActionCellIdentifier forIndexPath:indexPath];
+        cell.actionLabel.text = NSLocalizedString(@"picker.title", nil);
+        cell.actionLabel.textColor = self.navigationController.navigationBar.tintColor;
         return cell;
     } else if (indexPath.section == 1) {
         HEPActionTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:HEPActionCellIdentifier forIndexPath:indexPath];
@@ -107,7 +117,7 @@ static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
 
 - (BOOL)tableView:(UITableView*)tableView canEditRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    return YES;
+    return [self isDeviceIndexPath:indexPath];
 }
 
 - (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath
@@ -134,15 +144,17 @@ static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
 
 - (CGFloat)tableView:(UITableView*)tableView heightForRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    return indexPath.section == 0 ? HEPDeviceTableViewCellHeight : 44.f;
+    return [self isDeviceIndexPath:indexPath] ? HEPDeviceTableViewCellHeight : 44.f;
 }
 
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
 {
-    if (indexPath.section == 0) {
+    if ([self isDeviceIndexPath:indexPath]) {
         HEPDevice* device = [self deviceAtIndexPath:indexPath];
         UINavigationController* wrapper = [[UINavigationController alloc] initWithRootViewController:[[HEPDeviceInfoViewController alloc] initWithDevice:device]];
         [self.navigationController presentViewController:wrapper animated:YES completion:NULL];
+    } else if (indexPath.section == 0) {
+        [self addDevice];
     } else if (indexPath.section == 1) {
         [HEPAuthorizationService deauthorize];
         [self closeView];
