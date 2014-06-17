@@ -37,7 +37,7 @@ extern NSString* const HEPDeviceManagerDidWriteCurrentTimeNotification;
 
 - (void)disconnectWithCompletion:(HEPDeviceErrorBlock)completionBlock;
 
-- (NSData*)fetchDataWithCompletion:(HEPDeviceErrorBlock)completionBlock;
+- (void)fetchDataWithCompletion:(HEPDeviceErrorBlock)completionBlock;
 
 /**
  *  A list of discovered named devices, populated by calling `scanForPeripherals`

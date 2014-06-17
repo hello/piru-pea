@@ -93,6 +93,8 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
             return;
         }
         [SVProgressHUD dismiss];
+        if (!shouldTrack)
+            [manager fetchDataWithCompletion:NULL];
     };
     if (shouldTrack) {
         [manager startDataCollectionWithCompletion:completion];

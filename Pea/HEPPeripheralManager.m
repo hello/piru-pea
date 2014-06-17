@@ -19,6 +19,7 @@ NSString* const HEPDeviceServiceELLO = @"0000E110-1212-EFDE-1523-785FEABCD123";
 NSString* const HEPDeviceServiceFFA0 = @"0000FFA0-1212-EFDE-1523-785FEABCD123";
 static NSString* const HEPDeviceCharacteristicDEED = @"DEED";
 static NSString* const HEPDeviceCharacteristicD00D = @"D00D";
+static NSString* const HEPDeviceCharacteristicFEED = @"FEED";
 static NSString* const HEPDeviceCharacteristicDayDateTime = @"2A0A";
 static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
 
@@ -74,9 +75,24 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
     } failureBlock:completionBlock];
 }
 
-- (NSData*)fetchDataWithCompletion:(HEPDeviceErrorBlock)completionBlock
+- (void)fetchDataWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
-    return nil;
+    [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService *service) {
+        LGCharacteristic* feed = [self characteristicWithUUIDString:HEPDeviceCharacteristicFEED onService:service];
+        [feed setNotifyValue:YES completion:^(NSError *error) {
+            if (error) {
+                [self invokeCompletionBlock:completionBlock withError:error];
+                return;
+            }
+            LGCharacteristic* deed = [self characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:service];
+            [deed writeByte:0x4 completion:^(NSError *error) {
+                if (error)
+                    [self invokeCompletionBlock:completionBlock withError:error];
+            }];
+        } onUpdate:^(NSData *data, NSError *error) {
+            NSLog(@"received bytes: %@", data);
+        }];
+    } failureBlock:completionBlock];
 }
 
 - (void)calibrateWithCompletion:(HEPDeviceErrorBlock)completionBlock
