@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Hello. All rights reserved.
 //
 #import <LGBluetooth/LGBluetooth.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 #import "HEPDevice.h"
 #import "HEPDeviceService.h"
@@ -85,10 +86,18 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
 
     LGPeripheral* peripheral = [[[LGCentralManager sharedInstance] retrievePeripheralsWithIdentifiers:@[ [[NSUUID alloc] initWithUUIDString:device.identifier] ]] firstObject];
     HEPPeripheralManager* manager = [[HEPPeripheralManager alloc] initWithPeripheral:peripheral];
+    [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    void (^completion)(NSError*) = ^(NSError *error) {
+        if (error) {
+            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+            return;
+        }
+        [SVProgressHUD dismiss];
+    };
     if (shouldTrack) {
-        [manager startDataCollectionWithCompletion:NULL];
+        [manager startDataCollectionWithCompletion:completion];
     } else {
-        [manager stopDataCollectionWithCompletion:NULL];
+        [manager stopDataCollectionWithCompletion:completion];
     }
 }
 

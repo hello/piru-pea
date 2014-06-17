@@ -11,22 +11,7 @@
 #import "HEPPeripheralManager.h"
 #import "HEPDeviceService.h"
 #import "HEPDevice.h"
-
-void readDateIntoArray(unsigned char bytes[8])
-{
-    NSDate* date = [NSDate date];
-    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents* components = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit)fromDate:date];
-    NSInteger weekday = components.weekday;
-    bytes[0] = (char)(components.year >> 8);
-    bytes[1] = (char)components.year;
-    bytes[2] = (char)components.month;
-    bytes[3] = (char)components.day;
-    bytes[4] = (char)components.hour;
-    bytes[5] = (char)components.minute;
-    bytes[6] = (char)components.second;
-    bytes[7] = weekday == 1 ? 7 : weekday - 1;
-}
+#import "HEPDateUtils.h"
 
 NSString* const HEPDeviceManagerDidWriteCurrentTimeNotification = @"HEPDeviceManagerDidWriteCurrentTimeNotification";
 
@@ -58,17 +43,11 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
         LGCharacteristic* deed = [self characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
         [deed writeByte:0x6 completion:^(NSError *error) {
             if (error) {
-                if (completionBlock)
-                    completionBlock(error);
+                [self invokeCompletionBlock:completionBlock withError:error];
                 return;
             }
-            unsigned char dateBytes[8] = {};
-            readDateIntoArray(dateBytes);
-            NSData* date = [NSData dataWithBytes:dateBytes length:8];
-            NSLog(@"Write Current Time: %@", date);
-            [deed writeValue:date completion:^(NSError *error) {
-                if (completionBlock)
-                    completionBlock(error);
+            [deed writeValue:HEP_dataForCurrentDate() completion:^(NSError *error) {
+                [self readCurrentTimeWithCompletion:completionBlock];
             }];
         }];
     } failureBlock:completionBlock];
@@ -76,27 +55,21 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
 
 - (void)readCurrentTimeWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
-    __weak typeof(self) weakSelf = self;
     [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
-        typeof(self) strongSelf = weakSelf;
         LGCharacteristic* read = [self characteristicWithUUIDString:HEPDeviceCharacteristicDayDateTime onService:helloService];
         [read setNotifyValue:YES completion:^(NSError *error) {
             if (error) {
-                if (completionBlock)
-                    completionBlock(error);
+                [self invokeCompletionBlock:completionBlock withError:error];
                 return;
             }
             LGCharacteristic* deed = [self characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
             [deed writeByte:0x5 completion:^(NSError *error) {
-                if (error) {
-                    if (completionBlock)
-                        completionBlock(error);
-                }
+                if (error)
+                    [self invokeCompletionBlock:completionBlock withError:error];
             }];
         } onUpdate:^(NSData *data, NSError *error) {
-            if (completionBlock)
-                completionBlock(error);
-            [strongSelf disconnectWithCompletion:NULL];
+            [self updateDeviceWithDate:HEP_dateForData(data)];
+            [self invokeCompletionBlock:completionBlock withError:error];
         }];
     } failureBlock:completionBlock];
 }
@@ -114,21 +87,18 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
             LGCharacteristic* ffaa = [self characteristicWithUUIDString:HEPDeviceCharacteristicFFAA onService:service];
             [ffaa setNotifyValue:YES completion:^(NSError *error) {
                 if (error) {
-                    if (completionBlock)
-                        completionBlock(error);
+                    [self invokeCompletionBlock:completionBlock withError:error];
                     return;
                 }
                 LGCharacteristic* deed = [self characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
                 LGCharacteristic* dood = [self characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
                 [deed writeByte:0x2 completion:^(NSError *error) {
                     if (error) {
-                        if (completionBlock)
-                            completionBlock(error);
+                        [self invokeCompletionBlock:completionBlock withError:error];
                         return;
                     }
                     [dood readValueWithBlock:^(NSData *data, NSError *error) {
-                        if (completionBlock)
-                            completionBlock(error);
+                        [self invokeCompletionBlock:completionBlock withError:error];
                         NSLog(@"should get 0x2: %@", data);
                     }];
                 }];
@@ -141,54 +111,12 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
 
 - (void)startDataCollectionWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
-    __weak typeof(self) weakSelf = self;
-    [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
-        typeof(self) strongSelf = weakSelf;
-        LGCharacteristic* deed = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
-        LGCharacteristic* dood = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
-        [deed writeByte:0x1 completion:^(NSError *error) {
-            if (error) {
-                if (completionBlock)
-                    completionBlock(error);
-                return;
-            }
-            [dood readValueWithBlock:^(NSData *data, NSError *error) {
-                if (error) {
-                    if (completionBlock)
-                        completionBlock(error);
-                    return;
-                }
-                [strongSelf updateDeviceWithDataRecordingState:YES];
-                [strongSelf disconnectWithCompletion:NULL];
-            }];
-        }];
-    } failureBlock:completionBlock];
+    [self toggleDataCollection:YES withCompletion:completionBlock];
 }
 
 - (void)stopDataCollectionWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
-    __weak typeof(self) weakSelf = self;
-    [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
-        typeof(self) strongSelf = weakSelf;
-        LGCharacteristic* deed = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
-        LGCharacteristic* dood = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
-        [deed writeByte:0x0 completion:^(NSError *error) {
-            if (error) {
-                if (completionBlock)
-                    completionBlock(error);
-                return;
-            }
-            [dood readValueWithBlock:^(NSData *data, NSError *error) {
-                if (error) {
-                    if (completionBlock)
-                        completionBlock(error);
-                    return;
-                }
-                [strongSelf updateDeviceWithDataRecordingState:NO];
-                [strongSelf disconnectWithCompletion:NULL];
-            }];
-        }];
-    } failureBlock:completionBlock];
+    [self toggleDataCollection:NO withCompletion:completionBlock];
 }
 
 - (void)disconnectWithCompletion:(HEPDeviceErrorBlock)completionBlock
@@ -199,11 +127,9 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
         return;
     }
 
-    __weak typeof(self) weakSelf = self;
     [self discoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
-        typeof(self) strongSelf = weakSelf;
-        LGCharacteristic* deed = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
-        LGCharacteristic* dood = [strongSelf characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
+        LGCharacteristic* deed = [self characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
+        LGCharacteristic* dood = [self characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
         [dood setNotifyValue:YES completion:^(NSError *error) {
             if (error) {
                 if (completionBlock)
@@ -231,6 +157,31 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
 }
 
 /**
+ *  Send a message to the peripheral to either start or stop data collection
+ *
+ *  @param shouldCollectData YES if the peripheral should collect data
+ *  @param completionBlock   block invoked when the operation is complete
+ */
+- (void)toggleDataCollection:(BOOL)shouldCollectData withCompletion:(HEPDeviceErrorBlock)completionBlock
+{
+    [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* helloService) {
+        LGCharacteristic* deed = [self characteristicWithUUIDString:HEPDeviceCharacteristicDEED onService:helloService];
+        LGCharacteristic* dood = [self characteristicWithUUIDString:HEPDeviceCharacteristicD00D onService:helloService];
+        char byteToSend = shouldCollectData ? 0x1 : 0x0;
+        [deed writeByte:byteToSend completion:^(NSError *error) {
+            if (error) {
+                [self invokeCompletionBlock:completionBlock withError:error];
+                return;
+            }
+            [dood readValueWithBlock:^(NSData *data, NSError *error) {
+                [self invokeCompletionBlock:completionBlock withError:error];
+                [self updateDeviceWithDataRecordingState:shouldCollectData];
+            }];
+        }];
+    } failureBlock:completionBlock];
+}
+
+/**
  *  Connects to a peripheral and discovers available services, invoking a block with a matching service
  *  upon success.
  *
@@ -243,15 +194,13 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
     if ([self isConnected]) {
         [self discoverServiceWithUUIDString:UUIDString andPerformBlock:successBlock failureBlock:failureBlock];
     } else {
-        __weak typeof(self) weakSelf = self;
         [self.peripheral connectWithTimeout:3 completion:^(NSError* error) {
-            typeof(self) strongSelf = weakSelf;
             if (error) {
                 if (failureBlock)
                     failureBlock(error);
                 return;
             }
-            [strongSelf discoverServiceWithUUIDString:UUIDString andPerformBlock:successBlock failureBlock:failureBlock];
+            [self discoverServiceWithUUIDString:UUIDString andPerformBlock:successBlock failureBlock:failureBlock];
         }];
     }
 }
@@ -282,10 +231,31 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
     }];
 }
 
+/**
+ *  Run a block intended to be the end of a set of operations on a peripheral and disconnect
+ *
+ *  @param completionBlock       the block to run
+ *  @param error                 any error raised during operations before the block
+ */
+- (void)invokeCompletionBlock:(HEPDeviceErrorBlock)completionBlock withError:(NSError*)error
+{
+    [self disconnectWithCompletion:^(NSError* error) {
+        if (completionBlock)
+            completionBlock(error);
+    }];
+}
+
 - (void)updateDeviceWithDataRecordingState:(BOOL)isRecordingData
 {
     HEPDevice* device = [HEPDeviceService deviceWithIdentifier:self.peripheral.UUIDString];
     device.recordingData = isRecordingData;
+    [HEPDeviceService updateDevice:device];
+}
+
+- (void)updateDeviceWithDate:(NSDate*)date
+{
+    HEPDevice* device = [HEPDeviceService deviceWithIdentifier:self.peripheral.UUIDString];
+    device.date = date;
     [HEPDeviceService updateDevice:device];
 }
 

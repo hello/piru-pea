@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HEPDeviceInfoViewController">
             <connections>
                 <outlet property="calibrationButton" destination="bOz-4Z-IsE" id="Eza-5S-oLW"/>
+                <outlet property="dateLabel" destination="YIO-dd-tlv" id="BFg-fG-BXu"/>
                 <outlet property="descriptionLabel" destination="AoX-ws-iJe" id="d7G-4x-ACq"/>
                 <outlet property="identifierLabel" destination="sQc-sn-WTp" id="OB7-Wc-TFi"/>
                 <outlet property="nameLabel" destination="VWd-LZ-opZ" id="0rE-Lt-mDy"/>
@@ -51,10 +52,16 @@
                     <rect key="frame" x="146" y="527" width="29" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="21" id="FSG-KB-0vm"/>
+                        <constraint firstAttribute="height" constant="21" id="ERN-5r-fiL"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YIO-dd-tlv" userLabel="Date Label">
+                    <rect key="frame" x="146" y="506" width="29" height="14"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
@@ -62,10 +69,12 @@
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="VWd-LZ-opZ" secondAttribute="centerX" constant="-0.5" id="1mx-Un-okn"/>
                 <constraint firstAttribute="centerX" secondItem="bOz-4Z-IsE" secondAttribute="centerX" id="3g4-mP-Mz9"/>
+                <constraint firstAttribute="centerX" secondItem="YIO-dd-tlv" secondAttribute="centerX" id="9yM-q8-A7h"/>
                 <constraint firstItem="VWd-LZ-opZ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="89" id="WPk-ge-h5y"/>
                 <constraint firstItem="AoX-ws-iJe" firstAttribute="top" secondItem="VWd-LZ-opZ" secondAttribute="bottom" constant="71" id="YFr-8u-nlK"/>
                 <constraint firstAttribute="bottom" secondItem="sQc-sn-WTp" secondAttribute="bottom" constant="20" id="Z8I-HT-mqC"/>
                 <constraint firstItem="bOz-4Z-IsE" firstAttribute="top" secondItem="AoX-ws-iJe" secondAttribute="bottom" constant="48" id="duK-gk-xuE"/>
+                <constraint firstItem="sQc-sn-WTp" firstAttribute="top" secondItem="YIO-dd-tlv" secondAttribute="bottom" constant="7" id="h1B-Kq-hci"/>
                 <constraint firstAttribute="centerX" secondItem="AoX-ws-iJe" secondAttribute="centerX" constant="-0.5" id="kbe-5q-Vdy"/>
                 <constraint firstAttribute="centerX" secondItem="sQc-sn-WTp" secondAttribute="centerX" id="xhf-Mc-Pf4"/>
             </constraints>
