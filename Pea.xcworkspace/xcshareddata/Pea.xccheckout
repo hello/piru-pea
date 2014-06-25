@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C544B45C-407E-484C-993A-D31DA2B1C07C</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Pea</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C69A59F6-2557-4F70-8B5D-C9FCBFAE2B55</key>
+		<string>ssh://github.com/hello/piru-pea.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Pea.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C69A59F6-2557-4F70-8B5D-C9FCBFAE2B55</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/hello/piru-pea.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C69A59F6-2557-4F70-8B5D-C9FCBFAE2B55</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C69A59F6-2557-4F70-8B5D-C9FCBFAE2B55</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Pea</string>
+		</dict>
+	</array>
+</dict>
+</plist>
