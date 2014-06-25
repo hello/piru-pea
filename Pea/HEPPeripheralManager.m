@@ -12,6 +12,7 @@
 #import "HEPDeviceService.h"
 #import "HEPDevice.h"
 #import "HEPDateUtils.h"
+#import "HEPPacketUtils.h"
 
 NSString* const HEPDeviceManagerDidWriteCurrentTimeNotification = @"HEPDeviceManagerDidWriteCurrentTimeNotification";
 
@@ -22,6 +23,7 @@ static NSString* const HEPDeviceCharacteristicD00D = @"D00D";
 static NSString* const HEPDeviceCharacteristicFEED = @"FEED";
 static NSString* const HEPDeviceCharacteristicDayDateTime = @"2A0A";
 static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
+static NSInteger const BLE_MAX_PACKET_SIZE = 20;
 
 @interface HEPPeripheralManager ()
 @property (nonatomic, getter=shouldDisconnectPeripheral) BOOL disconnectPeripheral;
@@ -77,8 +79,12 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
 
 - (void)fetchDataWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
-    [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService *service) {
+    [self connectAndDiscoverServiceWithUUIDString:HEPDeviceServiceELLO andPerformBlock:^(LGService* service) {
         LGCharacteristic* feed = [self characteristicWithUUIDString:HEPDeviceCharacteristicFEED onService:service];
+        __block int expectedPacketCount = 0;
+        __block int receivedPacketCount = 0;
+        __block NSMutableArray* receivedPackets = [NSMutableArray array];
+        
         [feed setNotifyValue:YES completion:^(NSError *error) {
             if (error) {
                 [self invokeCompletionBlock:completionBlock withError:error];
@@ -90,7 +96,20 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
                     [self invokeCompletionBlock:completionBlock withError:error];
             }];
         } onUpdate:^(NSData *data, NSError *error) {
-            NSLog(@"received bytes: %@", data);
+            struct HEPPacket packet;
+            [data getBytes:&packet length:sizeof(struct HEPPacket)];
+            if (packet.sequence_number == 0) {
+                [receivedPackets insertObject:data atIndex:0];
+                expectedPacketCount = packet.header.packet_count;
+            } else {
+                [receivedPackets addObject:data];
+                if (packet.sequence_number == expectedPacketCount - 1) {
+                    NSData* compiledPackets = [self formatPacketsInArray:receivedPackets];
+                    [self invokeCompletionBlock:completionBlock withError:error];
+                }
+            }
+            
+            receivedPacketCount++;
         }];
     } failureBlock:completionBlock];
 }
@@ -137,6 +156,7 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
 
 - (void)disconnectWithCompletion:(HEPDeviceErrorBlock)completionBlock
 {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
     if (![self isConnected]) {
         if (completionBlock)
             completionBlock(nil);
@@ -207,11 +227,13 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
  */
 - (void)connectAndDiscoverServiceWithUUIDString:(NSString*)UUIDString andPerformBlock:(void (^)(LGService*))successBlock failureBlock:(HEPDeviceErrorBlock)failureBlock
 {
+    [self performSelector:@selector(invokeTimeoutBlock:) withObject:failureBlock afterDelay:4];
     if ([self isConnected]) {
         [self discoverServiceWithUUIDString:UUIDString andPerformBlock:successBlock failureBlock:failureBlock];
     } else {
         [self.peripheral connectWithTimeout:3 completion:^(NSError* error) {
             if (error) {
+                [NSObject cancelPreviousPerformRequestsWithTarget:self];
                 if (failureBlock)
                     failureBlock(error);
                 return;
@@ -225,6 +247,7 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
 {
     [self.peripheral discoverServices:nil completion:^(NSArray* services, NSError* error) {
         if (error) {
+            [NSObject cancelPreviousPerformRequestsWithTarget:self];
             if (failureBlock)
                 failureBlock(error);
             return;
@@ -236,6 +259,7 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
         } else {
             [service discoverCharacteristicsWithCompletion:^(NSArray *characteristics, NSError *error) {
                 if (error) {
+                    [NSObject cancelPreviousPerformRequestsWithTarget:self];
                     if (failureBlock)
                         failureBlock(error);
                     return;
@@ -248,6 +272,19 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
 }
 
 /**
+ *  Invoke an error block with a timeout error
+ *
+ *  @param block block to run
+ */
+- (void)invokeTimeoutBlock:(HEPDeviceErrorBlock)block
+{
+    [self.peripheral disconnectWithCompletion:NULL];
+    NSError* error = [NSError errorWithDomain:@"co.hello" code:408 userInfo:@{ NSLocalizedDescriptionKey : @"The request to connect timed out." }];
+    if (block)
+        block(error);
+}
+
+/**
  *  Run a block intended to be the end of a set of operations on a peripheral and disconnect
  *
  *  @param completionBlock       the block to run
@@ -255,6 +292,7 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
  */
 - (void)invokeCompletionBlock:(HEPDeviceErrorBlock)completionBlock withError:(NSError*)error
 {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self];
     [self disconnectWithCompletion:^(NSError* error) {
         if (completionBlock)
             completionBlock(error);
@@ -300,6 +338,27 @@ static NSString* const HEPDeviceCharacteristicFFAA = @"FFAA";
         }
     }
     return nil;
+}
+
+#pragma mark - Data Collection
+
+- (NSData*)formatPacketsInArray:(NSArray*)packets
+{
+    NSData* headerData = [packets firstObject];
+    uint8_t firstPacket[BLE_MAX_PACKET_SIZE];
+    [headerData getBytes:&firstPacket length:BLE_MAX_PACKET_SIZE];
+    uint8_t expectedPacketCount = firstPacket[1];
+    uint8_t packetContainer[expectedPacketCount][BLE_MAX_PACKET_SIZE];
+
+    for (int i = 0; i < packets.count; i++) {
+        uint8_t receivedPacket[BLE_MAX_PACKET_SIZE];
+        NSData* packetData = packets[i];
+        [packetData getBytes:&receivedPacket length:BLE_MAX_PACKET_SIZE];
+        uint8_t receivedPacketSize = (sizeof(receivedPacket) / sizeof(receivedPacket[0]));
+        uint8_t sequenceNumber = receivedPacket[0];
+        memcpy(packetContainer[sequenceNumber], receivedPacket, MIN(BLE_MAX_PACKET_SIZE, receivedPacketSize));
+    }
+    return [NSData dataWithBytes:packetContainer length:sizeof(packetContainer)];
 }
 
 @end
