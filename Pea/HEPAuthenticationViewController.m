@@ -1,17 +1,11 @@
-//
-//  HEPViewController.m
-//  Pea
-//
-//  Created by Delisa Mason on 6/6/14.
-//  Copyright (c) 2014 Hello. All rights reserved.
-//
+
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import <SenseKit/SENAuthorizationService.h>
+#import <SenseKit/SENAPIClient.h>
 
 #import "HEPAuthenticationViewController.h"
-#import "HEPAuthorizationService.h"
 #import "HEPDevicePickerTableViewController.h"
-#import "HEPAPIClient.h"
 
 static NSInteger const HEPURLAlertButtonIndexSave = 1;
 static NSInteger const HEPURLAlertButtonIndexReset = 2;
@@ -63,7 +57,7 @@ static NSInteger const HEPURLAlertButtonIndexReset = 2;
                                                  otherButtonTitles:NSLocalizedString(@"actions.save", nil), NSLocalizedString(@"authorization.set-url.action.reset", nil), nil];
     URLAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField* URLField = [URLAlertView textFieldAtIndex:0];
-    URLField.text = [HEPAPIClient baseURL].absoluteString;
+    URLField.text = [SENAPIClient baseURL].absoluteString;
     URLField.clearButtonMode = UITextFieldViewModeWhileEditing;
     [URLAlertView show];
 }
@@ -75,7 +69,7 @@ static NSInteger const HEPURLAlertButtonIndexReset = 2;
     self.navigationItem.rightBarButtonItem.enabled = NO;
     [SVProgressHUD showWithStatus:NSLocalizedString(@"authorization.sign-in.loading-message", nil) maskType:SVProgressHUDMaskTypeBlack];
     __weak typeof(self) weakSelf = self;
-    [HEPAuthorizationService authorizeWithUsername:self.usernameField.text password:self.passwordField.text callback:^(NSError* error) {
+    [SENAuthorizationService authorizeWithUsername:self.usernameField.text password:self.passwordField.text callback:^(NSError* error) {
         typeof(self) strongSelf = weakSelf;
         strongSelf.navigationItem.rightBarButtonItem.enabled = YES;
         [SVProgressHUD dismiss];
@@ -102,12 +96,12 @@ static NSInteger const HEPURLAlertButtonIndexReset = 2;
 {
     switch (buttonIndex) {
     case HEPURLAlertButtonIndexReset: {
-        [HEPAPIClient resetToDefaultBaseURL];
+        [SENAPIClient resetToDefaultBaseURL];
         break;
     }
     case HEPURLAlertButtonIndexSave: {
         UITextField* URLField = [alertView textFieldAtIndex:0];
-        if (![HEPAPIClient setBaseURLFromPath:URLField.text]) {
+        if (![SENAPIClient setBaseURLFromPath:URLField.text]) {
             [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"authorization.failed-url.title", nil)
                                         message:NSLocalizedString(@"authorization.failed-url.message", nil)
                                        delegate:self

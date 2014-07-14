@@ -22,17 +22,10 @@
 		8A12A619194243A200EF2D10 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A12A5FB194243A200EF2D10 /* UIKit.framework */; };
 		8A12A621194243A200EF2D10 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A12A61F194243A200EF2D10 /* InfoPlist.strings */; };
 		8A12A623194243A200EF2D10 /* PeaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A622194243A200EF2D10 /* PeaTests.m */; };
-		8A12A62F1942651D00EF2D10 /* HEPAuthorizationService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A62E1942651D00EF2D10 /* HEPAuthorizationService.m */; };
-		8A12A633194271F500EF2D10 /* HEPAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A12A632194271F500EF2D10 /* HEPAPIClient.m */; };
 		8A12A636194273BB00EF2D10 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8A12A638194273BB00EF2D10 /* Localizable.strings */; };
 		8A4F0A66194BD901007BEE9A /* HEPActionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F0A64194BD901007BEE9A /* HEPActionTableViewCell.m */; };
 		8A4F0A67194BD901007BEE9A /* HEPActionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A4F0A65194BD901007BEE9A /* HEPActionTableViewCell.xib */; };
-		8A4F0A6B194FD637007BEE9A /* HEPDateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F0A6A194FD637007BEE9A /* HEPDateUtils.m */; };
-		8A4F0A6E19535EA2007BEE9A /* HEPPacketUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A4F0A6D19535EA2007BEE9A /* HEPPacketUtils.m */; };
 		8AF35BED19428E97001C1507 /* HEPDevicePickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF35BEC19428E97001C1507 /* HEPDevicePickerTableViewController.m */; };
-		8AF35BF019465E6E001C1507 /* HEPPeripheralManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF35BEF19465E6E001C1507 /* HEPPeripheralManager.m */; };
-		8AF35BF5194767F8001C1507 /* HEPDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF35BF4194767F8001C1507 /* HEPDevice.m */; };
-		8AF35BF819476EDB001C1507 /* HEPDeviceService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF35BF719476EDB001C1507 /* HEPDeviceService.m */; };
 		8AF35C011947BAD6001C1507 /* HEPConnectedDeviceTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF35BFF1947BAD6001C1507 /* HEPConnectedDeviceTableViewController.m */; };
 		8AF35C021947BAD6001C1507 /* HEPConnectedDeviceTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8AF35C001947BAD6001C1507 /* HEPConnectedDeviceTableViewController.xib */; };
 		8AF35C071947BB49001C1507 /* HEPDeviceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8AF35C051947BB49001C1507 /* HEPDeviceTableViewCell.m */; };
@@ -74,27 +67,13 @@
 		8A12A61E194243A200EF2D10 /* PeaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PeaTests-Info.plist"; sourceTree = "<group>"; };
 		8A12A620194243A200EF2D10 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8A12A622194243A200EF2D10 /* PeaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PeaTests.m; sourceTree = "<group>"; };
-		8A12A62D1942651D00EF2D10 /* HEPAuthorizationService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPAuthorizationService.h; sourceTree = "<group>"; };
-		8A12A62E1942651D00EF2D10 /* HEPAuthorizationService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPAuthorizationService.m; sourceTree = "<group>"; };
 		8A12A630194268DB00EF2D10 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		8A12A631194271F500EF2D10 /* HEPAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPAPIClient.h; sourceTree = "<group>"; };
-		8A12A632194271F500EF2D10 /* HEPAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPAPIClient.m; sourceTree = "<group>"; };
 		8A12A637194273BB00EF2D10 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8A4F0A63194BD901007BEE9A /* HEPActionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPActionTableViewCell.h; sourceTree = "<group>"; };
 		8A4F0A64194BD901007BEE9A /* HEPActionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPActionTableViewCell.m; sourceTree = "<group>"; };
 		8A4F0A65194BD901007BEE9A /* HEPActionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HEPActionTableViewCell.xib; sourceTree = "<group>"; };
-		8A4F0A69194FD637007BEE9A /* HEPDateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPDateUtils.h; sourceTree = "<group>"; };
-		8A4F0A6A194FD637007BEE9A /* HEPDateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPDateUtils.m; sourceTree = "<group>"; };
-		8A4F0A6C19535EA2007BEE9A /* HEPPacketUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPPacketUtils.h; sourceTree = "<group>"; };
-		8A4F0A6D19535EA2007BEE9A /* HEPPacketUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPPacketUtils.m; sourceTree = "<group>"; };
 		8AF35BEB19428E97001C1507 /* HEPDevicePickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPDevicePickerTableViewController.h; sourceTree = "<group>"; };
 		8AF35BEC19428E97001C1507 /* HEPDevicePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPDevicePickerTableViewController.m; sourceTree = "<group>"; };
-		8AF35BEE19465E6E001C1507 /* HEPPeripheralManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPPeripheralManager.h; sourceTree = "<group>"; };
-		8AF35BEF19465E6E001C1507 /* HEPPeripheralManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPPeripheralManager.m; sourceTree = "<group>"; };
-		8AF35BF3194767F8001C1507 /* HEPDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPDevice.h; sourceTree = "<group>"; };
-		8AF35BF4194767F8001C1507 /* HEPDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPDevice.m; sourceTree = "<group>"; };
-		8AF35BF619476EDB001C1507 /* HEPDeviceService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPDeviceService.h; sourceTree = "<group>"; };
-		8AF35BF719476EDB001C1507 /* HEPDeviceService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPDeviceService.m; sourceTree = "<group>"; };
 		8AF35BFE1947BAD6001C1507 /* HEPConnectedDeviceTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEPConnectedDeviceTableViewController.h; sourceTree = "<group>"; };
 		8AF35BFF1947BAD6001C1507 /* HEPConnectedDeviceTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEPConnectedDeviceTableViewController.m; sourceTree = "<group>"; };
 		8AF35C001947BAD6001C1507 /* HEPConnectedDeviceTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HEPConnectedDeviceTableViewController.xib; sourceTree = "<group>"; };
@@ -171,11 +150,8 @@
 			isa = PBXGroup;
 			children = (
 				8A12A630194268DB00EF2D10 /* Podfile */,
-				8A4F0A68194FD602007BEE9A /* Utilities */,
 				8AF35C031947BB18001C1507 /* Views */,
 				8AF35BF2194766B5001C1507 /* Controllers */,
-				8AF35BE41942810E001C1507 /* Device Management */,
-				8A12A62C194264FA00EF2D10 /* API */,
 				8A12A606194243A200EF2D10 /* HEPAppDelegate.h */,
 				8A12A607194243A200EF2D10 /* HEPAppDelegate.m */,
 				8A12A609194243A200EF2D10 /* Main.storyboard */,
@@ -213,41 +189,6 @@
 				8A12A61F194243A200EF2D10 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		8A12A62C194264FA00EF2D10 /* API */ = {
-			isa = PBXGroup;
-			children = (
-				8A12A62D1942651D00EF2D10 /* HEPAuthorizationService.h */,
-				8A12A62E1942651D00EF2D10 /* HEPAuthorizationService.m */,
-				8A12A631194271F500EF2D10 /* HEPAPIClient.h */,
-				8A12A632194271F500EF2D10 /* HEPAPIClient.m */,
-			);
-			name = API;
-			sourceTree = "<group>";
-		};
-		8A4F0A68194FD602007BEE9A /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				8A4F0A69194FD637007BEE9A /* HEPDateUtils.h */,
-				8A4F0A6A194FD637007BEE9A /* HEPDateUtils.m */,
-				8A4F0A6C19535EA2007BEE9A /* HEPPacketUtils.h */,
-				8A4F0A6D19535EA2007BEE9A /* HEPPacketUtils.m */,
-			);
-			name = Utilities;
-			sourceTree = "<group>";
-		};
-		8AF35BE41942810E001C1507 /* Device Management */ = {
-			isa = PBXGroup;
-			children = (
-				8AF35BEE19465E6E001C1507 /* HEPPeripheralManager.h */,
-				8AF35BEF19465E6E001C1507 /* HEPPeripheralManager.m */,
-				8AF35BF3194767F8001C1507 /* HEPDevice.h */,
-				8AF35BF4194767F8001C1507 /* HEPDevice.m */,
-				8AF35BF619476EDB001C1507 /* HEPDeviceService.h */,
-				8AF35BF719476EDB001C1507 /* HEPDeviceService.m */,
-			);
-			name = "Device Management";
 			sourceTree = "<group>";
 		};
 		8AF35BF2194766B5001C1507 /* Controllers */ = {
@@ -425,13 +366,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8AF35BF019465E6E001C1507 /* HEPPeripheralManager.m in Sources */,
-				8A4F0A6E19535EA2007BEE9A /* HEPPacketUtils.m in Sources */,
 				8AF35BED19428E97001C1507 /* HEPDevicePickerTableViewController.m in Sources */,
-				8AF35BF819476EDB001C1507 /* HEPDeviceService.m in Sources */,
 				8AF35C071947BB49001C1507 /* HEPDeviceTableViewCell.m in Sources */,
-				8A12A633194271F500EF2D10 /* HEPAPIClient.m in Sources */,
-				8AF35BF5194767F8001C1507 /* HEPDevice.m in Sources */,
 				8A12A608194243A200EF2D10 /* HEPAppDelegate.m in Sources */,
 				8AF35C101947DEA3001C1507 /* HEPSleepTrackerViewController.m in Sources */,
 				8A12A60E194243A200EF2D10 /* HEPAuthenticationViewController.m in Sources */,
@@ -439,8 +375,6 @@
 				8A12A604194243A200EF2D10 /* main.m in Sources */,
 				8A4F0A66194BD901007BEE9A /* HEPActionTableViewCell.m in Sources */,
 				8AF35C1C1948D6A4001C1507 /* HEPDeviceInfoViewController.m in Sources */,
-				8A12A62F1942651D00EF2D10 /* HEPAuthorizationService.m in Sources */,
-				8A4F0A6B194FD637007BEE9A /* HEPDateUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

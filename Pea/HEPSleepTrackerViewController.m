@@ -1,24 +1,15 @@
-//
-//  HEPSleepTrackerViewController.m
-//  Pea
-//
-//  Created by Delisa Mason on 6/10/14.
-//  Copyright (c) 2014 Hello. All rights reserved.
-//
+
 #import <LGBluetooth/LGBluetooth.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import <SenseKit/BLE.h>
+#import <SenseKit/SENAuthorizationService.h>
 
-#import "HEPDevice.h"
-#import "HEPDeviceService.h"
-#import "HEPPeripheralManager.h"
 #import "HEPSleepTrackerViewController.h"
-#import "HEPAuthorizationService.h"
-#import "HEPDeviceService.h"
 #import "HEPAuthenticationViewController.h"
 #import "HEPDevicePickerTableViewController.h"
 #import "HEPConnectedDeviceTableViewController.h"
 
-typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
+typedef void (^HEPPickDeviceBlock)(SENDevice* device);
 
 @interface HEPSleepTrackerViewController () <UIActionSheetDelegate>
 
@@ -40,9 +31,9 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (![HEPAuthorizationService isAuthorized]) {
+    if (![SENAuthorizationService isAuthorized]) {
         [self presentNavigationControllerForViewController:[HEPAuthenticationViewController new]];
-    } else if (![HEPDeviceService hasDevices]) {
+    } else if (![SENDeviceService hasDevices]) {
         [self searchForDevices];
     }
 }
@@ -66,7 +57,7 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
 - (IBAction)startTracking:(id)sender
 {
     __weak typeof(self) weakSelf = self;
-    [self pickDevice:^(HEPDevice* device) {
+    [self pickDevice:^(SENDevice* device) {
         [weakSelf toggleDataCollectionState:YES forDevice:device];
     }];
 }
@@ -74,18 +65,18 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
 - (IBAction)stopTracking:(id)sender
 {
     __weak typeof(self) weakSelf = self;
-    [self pickDevice:^(HEPDevice* device) {
+    [self pickDevice:^(SENDevice* device) {
         [weakSelf toggleDataCollectionState:NO forDevice:device];
     }];
 }
 
-- (void)toggleDataCollectionState:(BOOL)shouldTrack forDevice:(HEPDevice*)device
+- (void)toggleDataCollectionState:(BOOL)shouldTrack forDevice:(SENDevice*)device
 {
     if (!device)
         return;
 
     LGPeripheral* peripheral = [[[LGCentralManager sharedInstance] retrievePeripheralsWithIdentifiers:@[ [[NSUUID alloc] initWithUUIDString:device.identifier] ]] firstObject];
-    HEPPeripheralManager* manager = [[HEPPeripheralManager alloc] initWithPeripheral:peripheral];
+    SENPeripheralManager* manager = [[SENPeripheralManager alloc] initWithPeripheral:peripheral];
     [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
     void (^completion)(NSError*) = ^(NSError *error) {
         if (error) {
@@ -136,7 +127,7 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
     if (!callback)
         return;
 
-    self.devices = [HEPDeviceService archivedDevices];
+    self.devices = [SENDeviceService archivedDevices];
     switch (self.devices.count) {
     case 0:
         [self searchForDevices];
@@ -152,7 +143,7 @@ typedef void (^HEPPickDeviceBlock)(HEPDevice* device);
                                              destructiveButtonTitle:nil
                                                   otherButtonTitles:nil];
 
-        for (HEPDevice* device in self.devices) {
+        for (SENDevice* device in self.devices) {
             [sheet addButtonWithTitle:device.nickname];
         }
         [sheet addButtonWithTitle:NSLocalizedString(@"actions.cancel", nil)];

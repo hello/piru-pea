@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "83470259972B4724B8755BFB"
+               BlueprintIdentifier = "D1F1FE12000E401581CD8867"
                BuildableName = "libPods-FXKeychain.a"
                BlueprintName = "Pods-FXKeychain"
                ReferencedContainer = "container:Pods.xcodeproj">

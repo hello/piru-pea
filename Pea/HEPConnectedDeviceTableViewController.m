@@ -1,19 +1,12 @@
-//
-//  HEPConnectedDeviceTableViewController.m
-//  Pea
-//
-//  Created by Delisa Mason on 6/10/14.
-//  Copyright (c) 2014 Hello. All rights reserved.
-//
+
+#import <SenseKit/SENAuthorizationService.h>
+#import <SenseKit/BLE.h>
 
 #import "HEPConnectedDeviceTableViewController.h"
 #import "HEPDevicePickerTableViewController.h"
 #import "HEPDeviceInfoViewController.h"
 #import "HEPDeviceTableViewCell.h"
 #import "HEPActionTableViewCell.h"
-#import "HEPAuthorizationService.h"
-#import "HEPDeviceService.h"
-#import "HEPDevice.h"
 
 static NSString* const HEPConnectedDeviceCellIdentifier = @"HEPConnectedDeviceCellIdentifier";
 static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
@@ -41,7 +34,7 @@ static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    self.devices = [HEPDeviceService archivedDevices];
+    self.devices = [SENDeviceService archivedDevices];
 }
 
 - (void)configureNavigationBar
@@ -77,7 +70,7 @@ static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
     return indexPath.section == 0 && indexPath.row < self.devices.count;
 }
 
-- (HEPDevice*)deviceAtIndexPath:(NSIndexPath*)indexPath
+- (SENDevice*)deviceAtIndexPath:(NSIndexPath*)indexPath
 {
     return self.devices[indexPath.row];
 }
@@ -96,7 +89,7 @@ static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
 {
     if ([self isDeviceIndexPath:indexPath]) {
         HEPDeviceTableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:HEPConnectedDeviceCellIdentifier forIndexPath:indexPath];
-        HEPDevice* device = [self deviceAtIndexPath:indexPath];
+        SENDevice* device = [self deviceAtIndexPath:indexPath];
         cell.nameLabel.text = device.nickname;
         cell.identifierLabel.text = device.identifier;
         cell.signalStrengthLabel.text = nil;
@@ -123,9 +116,9 @@ static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
 - (void)tableView:(UITableView*)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath*)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        HEPDevice* device = [self deviceAtIndexPath:indexPath];
-        [HEPDeviceService removeDevice:device];
-        self.devices = [HEPDeviceService archivedDevices];
+        SENDevice* device = [self deviceAtIndexPath:indexPath];
+        [SENDeviceService removeDevice:device];
+        self.devices = [SENDeviceService archivedDevices];
         [tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationFade];
     }
 }
@@ -150,13 +143,13 @@ static NSString* const HEPActionCellIdentifier = @"HEPActionCellIdentifier";
 - (void)tableView:(UITableView*)tableView didSelectRowAtIndexPath:(NSIndexPath*)indexPath
 {
     if ([self isDeviceIndexPath:indexPath]) {
-        HEPDevice* device = [self deviceAtIndexPath:indexPath];
+        SENDevice* device = [self deviceAtIndexPath:indexPath];
         UINavigationController* wrapper = [[UINavigationController alloc] initWithRootViewController:[[HEPDeviceInfoViewController alloc] initWithDevice:device]];
         [self.navigationController presentViewController:wrapper animated:YES completion:NULL];
     } else if (indexPath.section == 0) {
         [self addDevice];
     } else if (indexPath.section == 1) {
-        [HEPAuthorizationService deauthorize];
+        [SENAuthorizationService deauthorize];
         [self closeView];
     }
 }

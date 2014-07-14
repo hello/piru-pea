@@ -6,6 +6,18 @@
 // project.
 
 
+// AFNetworking
+#define COCOAPODS_POD_AVAILABLE_AFNetworking
+#define COCOAPODS_VERSION_MAJOR_AFNetworking 2
+#define COCOAPODS_VERSION_MINOR_AFNetworking 3
+#define COCOAPODS_VERSION_PATCH_AFNetworking 0
+
+// AFNetworking/NSURLConnection
+#define COCOAPODS_POD_AVAILABLE_AFNetworking_NSURLConnection
+#define COCOAPODS_VERSION_MAJOR_AFNetworking_NSURLConnection 2
+#define COCOAPODS_VERSION_MINOR_AFNetworking_NSURLConnection 3
+#define COCOAPODS_VERSION_PATCH_AFNetworking_NSURLConnection 0
+
 // AFNetworking/NSURLSession
 #define COCOAPODS_POD_AVAILABLE_AFNetworking_NSURLSession
 #define COCOAPODS_VERSION_MAJOR_AFNetworking_NSURLSession 2
@@ -30,6 +42,12 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_Serialization 3
 #define COCOAPODS_VERSION_PATCH_AFNetworking_Serialization 0
 
+// AFNetworking/UIKit
+#define COCOAPODS_POD_AVAILABLE_AFNetworking_UIKit
+#define COCOAPODS_VERSION_MAJOR_AFNetworking_UIKit 2
+#define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 3
+#define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 0
+
 // FXKeychain
 #define COCOAPODS_POD_AVAILABLE_FXKeychain
 #define COCOAPODS_VERSION_MAJOR_FXKeychain 1
@@ -47,6 +65,30 @@
 #define COCOAPODS_VERSION_MAJOR_SVProgressHUD 1
 #define COCOAPODS_VERSION_MINOR_SVProgressHUD 0
 #define COCOAPODS_VERSION_PATCH_SVProgressHUD 0
+
+// SenseKit
+#define COCOAPODS_POD_AVAILABLE_SenseKit
+#define COCOAPODS_VERSION_MAJOR_SenseKit 0
+#define COCOAPODS_VERSION_MINOR_SenseKit 1
+#define COCOAPODS_VERSION_PATCH_SenseKit 0
+
+// SenseKit/API
+#define COCOAPODS_POD_AVAILABLE_SenseKit_API
+#define COCOAPODS_VERSION_MAJOR_SenseKit_API 0
+#define COCOAPODS_VERSION_MINOR_SenseKit_API 1
+#define COCOAPODS_VERSION_PATCH_SenseKit_API 0
+
+// SenseKit/BLE
+#define COCOAPODS_POD_AVAILABLE_SenseKit_BLE
+#define COCOAPODS_VERSION_MAJOR_SenseKit_BLE 0
+#define COCOAPODS_VERSION_MINOR_SenseKit_BLE 1
+#define COCOAPODS_VERSION_PATCH_SenseKit_BLE 0
+
+// SenseKit/Model
+#define COCOAPODS_POD_AVAILABLE_SenseKit_Model
+#define COCOAPODS_VERSION_MAJOR_SenseKit_Model 0
+#define COCOAPODS_VERSION_MINOR_SenseKit_Model 1
+#define COCOAPODS_VERSION_PATCH_SenseKit_Model 0
 
 // kodobannin
 #define COCOAPODS_POD_AVAILABLE_kodobannin

@@ -1,22 +1,14 @@
-//
-//  HEPDeviceInfoViewController.m
-//  Pea
-//
-//  Created by Delisa Mason on 6/11/14.
-//  Copyright (c) 2014 Hello. All rights reserved.
-//
+
 #import <LGBluetooth/LGBluetooth.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import <SenseKit/BLE.h>
 
 #import "HEPDeviceInfoViewController.h"
-#import "HEPPeripheralManager.h"
-#import "HEPDeviceService.h"
-#import "HEPDevice.h"
 
 @interface HEPDeviceInfoViewController ()
 
-@property (nonatomic, strong) HEPDevice* device;
-@property (nonatomic, strong) HEPPeripheralManager* manager;
+@property (nonatomic, strong) SENDevice* device;
+@property (nonatomic, strong) SENPeripheralManager* manager;
 @property (weak, nonatomic) IBOutlet UILabel* nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel* descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel* identifierLabel;
@@ -26,7 +18,7 @@
 
 @implementation HEPDeviceInfoViewController
 
-- (instancetype)initWithDevice:(HEPDevice*)device
+- (instancetype)initWithDevice:(SENDevice*)device
 {
     self = [super initWithNibName:NSStringFromClass([HEPDeviceInfoViewController class]) bundle:nil];
     if (self) {
@@ -50,10 +42,10 @@
 
 - (void)refreshDevice
 {
-    self.device = [HEPDeviceService deviceWithIdentifier:self.device.identifier];
+    self.device = [SENDeviceService deviceWithIdentifier:self.device.identifier];
     NSUUID* deviceUUID = [[NSUUID alloc] initWithUUIDString:self.device.identifier];
     LGPeripheral* peripheral = [[[LGCentralManager sharedInstance] retrievePeripheralsWithIdentifiers:@[ deviceUUID ]] firstObject];
-    self.manager = [[HEPPeripheralManager alloc] initWithPeripheral:peripheral];
+    self.manager = [[SENPeripheralManager alloc] initWithPeripheral:peripheral];
     self.nameLabel.text = self.device.nickname;
     self.descriptionLabel.text = NSLocalizedString(@"device-info.calibration.message", nil);
     self.identifierLabel.text = self.device.identifier;

@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-SenseKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-kodobannin.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,32 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0C3F93C0C6BE4F6689FFCD36</key>
+		<key>36B40A96E08345C4BE78CDE3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>27CCA7206467459BB5BDAE56</key>
+		<key>5AAB40B251E74B3AB2365790</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4F9462A375B3441297E83871</key>
+		<key>679BF879008E4579ABD909A9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>67B03399369240C6AC2E1609</key>
+		<key>CD0A0ECB28FD41E8B7C21DEB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6D352CF808FF462EAEDDD8A6</key>
+		<key>D1F1FE12000E401581CD8867</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>83470259972B4724B8755BFB</key>
+		<key>D8AE609D30894C9FAB6C58E1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D9F875A25A7D48AF9B44A9E9</key>
 		<dict>
 			<key>primary</key>
 			<true/>

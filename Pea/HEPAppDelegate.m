@@ -1,14 +1,7 @@
-//
-//  HEPAppDelegate.m
-//  Pea
-//
-//  Created by Delisa Mason on 6/6/14.
-//  Copyright (c) 2014 Hello. All rights reserved.
-//
+
+#import <SenseKit/SENAuthorizationService.h>
 
 #import "HEPAppDelegate.h"
-#import "HEPAuthorizationService.h"
-#import "HEPDeviceService.h"
 #import "HEPAuthenticationViewController.h"
 #import "HEPSleepTrackerViewController.h"
 
@@ -33,7 +26,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication*)application
 {
-    if (![HEPAuthorizationService isAuthorized]) {
+    if (![SENAuthorizationService isAuthorized]) {
         [self showAuthViewController];
     }
 }

@@ -1,20 +1,11 @@
-//
-//  HEPDevicePickerTableViewController.m
-//  Pea
-//
-//  Created by Delisa Mason on 6/6/14.
-//  Copyright (c) 2014 Hello. All rights reserved.
-//
+
 #import <CoreBluetooth/CoreBluetooth.h>
-#import <CoreBluetooth/CBUUID.h>
 #import <LGBluetooth/LGBluetooth.h>
 #import <SVProgressHUD/SVProgressHUD.h>
+#import <SenseKit/BLE.h>
 
 #import "HEPDevicePickerTableViewController.h"
-#import "HEPPeripheralManager.h"
 #import "HEPDeviceTableViewCell.h"
-#import "HEPDeviceService.h"
-#import "HEPDevice.h"
 
 static NSString* const pillServiceUUIDString = @"0000E110-1212-EFDE-1523-785FEABCD123";
 static NSString* const pillCellIdentifier = @"pillCell";
@@ -23,7 +14,7 @@ static NSString* const pillCellIdentifier = @"pillCell";
 
 @property (nonatomic, strong) NSArray* discoveredDevices;
 @property (nonatomic, strong) NSMutableArray* discoveredDevicesRSSI;
-@property (nonatomic, strong) HEPPeripheralManager* deviceManager;
+@property (nonatomic, strong) SENPeripheralManager* deviceManager;
 @property (nonatomic, strong) UIActivityIndicatorView* searchIndicatorView;
 @property (nonatomic, strong) NSIndexPath* selectedDeviceIndexPath;
 @property (nonatomic, getter=isScanningForServices) BOOL scanningForServices;
@@ -170,10 +161,10 @@ static NSString* const pillCellIdentifier = @"pillCell";
         nickname = peripheral.cbPeripheral.name;
     }
 
-    HEPDevice* device = [[HEPDevice alloc] initWithName:peripheral.cbPeripheral.name nickname:nickname identifier:peripheral.UUIDString];
-    [HEPDeviceService addDevice:device];
+    SENDevice* device = [[SENDevice alloc] initWithName:peripheral.cbPeripheral.name nickname:nickname identifier:peripheral.UUIDString];
+    [SENDeviceService addDevice:device];
     if (!self.deviceManager || ![self.deviceManager.peripheral isEqual:peripheral])
-        self.deviceManager = [[HEPPeripheralManager alloc] initWithPeripheral:peripheral];
+        self.deviceManager = [[SENPeripheralManager alloc] initWithPeripheral:peripheral];
     [self dismissFromView];
 }
 
